@@ -1,0 +1,14 @@
+#%RAML 1.0 Library
+usage: to define basic library which used on this rest api raml specification
+types:
+  users: !include datatypes/user.raml
+traits:
+  respoMessage: !include traits/responces.raml 
+securitySchemes:
+  OAath: !include securityScheme.raml  
+#  documentation:
+#   - !include documentation.raml  
+resourceTypes:
+  collection: !include resources/rootresourceType.raml
+annotationTypes:
+  annotation: !include annotation.raml

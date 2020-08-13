@@ -1,0 +1,196 @@
+#%RAML 1.0
+baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/76b0efdf-420b-43a1-a1c6-462654d03edf/ # 
+title: craft-online-shopping
+version: 1.0
+mediaType: 
+ - application/json
+uses:
+  mylibs: library.raml
+/users:
+ description: this is the users resource
+ get:
+   queryParameters:
+     id:
+       description: id
+       type: integer
+       required: false
+     fullname:
+       description: 
+       default: 
+       type: string
+       enum:
+         [john, mike] 
+       required: false  
+     username:
+       description: user name
+       maxLength: 10
+       minLength: 2
+       required: false
+       default: john   
+   description: users resource get http status code responce
+   responses:
+     200:
+        body:
+            application/json:
+              type: mylibs.users[]
+              example: !include examples/users.json
+
+ type: 
+  mylibs.collection:
+      resourcePath: users
+
+ is: 
+  - mylibs.respoMessage
+   
+
+ /{userid}:               
+   description: this is the users resource
+   get:
+    description: users resource get http status code responce
+    responses:
+     200:
+        body:
+            application/json:
+              type:  mylibs.users
+              example: !include examples/user.json
+  
+
+   type:
+    mylibs.collection:
+      resourcePath: 
+
+   is:
+   - mylibs.respoMessage  
+
+ post:
+  responses:
+    201:
+      body:
+        application/json:
+          example:
+            {
+              "uid":123
+            }
+  
+  is: 
+  - mylibs.respoMessage
+
+/products:
+  description: this is products resource
+  get:
+    description: products resource get http status code response
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/products.json
+
+  type:
+    mylibs.collection:
+      resourcePath: products
+  is: 
+   - mylibs.respoMessage  
+
+  /product/{id}:
+    description: this is products resource by id
+    get:
+      description: products resources status code
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include examples/pruductid.json
+  
+    is: 
+     - mylibs.respoMessage  
+
+/orders:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/orders.json
+          
+  type:
+    mylibs.collection:
+      resourcePath: orders
+
+  is: 
+   - mylibs.respoMessage         
+              
+  post:
+    responses:
+      201:
+        body:
+          application/json:
+            example:
+              {
+            "orderid":10
+              }
+      
+    is: 
+     - mylibs.respoMessage
+
+  /{orderuid}:
+    get:
+      responses:
+       200:
+        body:
+          application/json:
+            example: !include examples/orderuid.json
+
+    type:
+      mylibs.collection:
+       resourcePath: orders
+
+    is: 
+     - mylibs.respoMessage           
+       
+  
+  /{orderid}:
+    get:
+      responses:
+       200:
+        body:
+          application/json:
+            example: !include examples/orderid.json
+
+    is: 
+     - mylibs.respoMessage          
+       
+      
+
+/categories:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/catagories.json
+  type:
+    mylibs.collection:
+      resourcePath: categories 
+
+  is: 
+   - mylibs.respoMessage           
+  
+/{categoryid}:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/catagoryid.json
+  type:
+    mylibs.collection:
+      resourcePath: categories
+
+  is: 
+   - mylibs.respoMessage
+          
+      
+
+  
+
+  

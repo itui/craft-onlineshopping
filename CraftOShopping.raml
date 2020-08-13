@@ -1,0 +1,290 @@
+#%RAML 1.0
+baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/336e9d26-475f-4795-b1d8-6e4cf23e381b/ # 
+title: craft-online-shopping
+version: 1.0
+
+types:
+  users: !include Datatypes/users.raml
+traits:
+  respoMessage: !include Traits/responses.raml
+
+securitySchemes:
+  oath: !include securityScheme.raml
+
+documentation:
+  - !include documentation.raml
+
+/users:
+  get:
+    description: this is the users resource
+    responses:
+      200:
+        body:
+          application/json:
+            type: users
+            example: !include Examples/users.json
+
+  is: [respoMessage] 
+
+/users/{ID}:
+  description: this is the user resource
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            type: users
+            example: !include Examples/users.json
+           
+      403: 
+        body:
+          application/json:
+            example:
+              {
+                "message": "Forbidden"
+              }
+
+    is: [respoMessage] 
+  post:
+    description: list of post status codes
+    responses:
+      201:
+        body:
+          application/json:
+            example:
+              {
+             "uid": 1526
+              }
+
+      403: 
+        body:
+          application/json:
+            example:
+              {
+                "message": "Forbidden"
+              }
+
+    is: [respoMessage] 
+/products:
+
+  description: This is the products resource
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              [
+                {
+                  "productid": 0,
+                  "categoryid": 10,
+                  "name": "FZA",
+                  "description": "NEHA", 
+                  "video_url": "www.craft.com",
+                  "price": 4414
+                }, 
+                {
+                  "productid": 5,
+                  "categoryid": 40,
+                  "name": "FZAB",
+                  "description": "NEHAH", 
+                  "video_url": "www.APPLE.com",
+                  "price": 4417
+                }, 
+                 {
+                  "productid": 6,
+                  "categoryid": 70,
+                  "name": "FZARB",
+                  "description": "NEHAHA", 
+                  "video_url": "www.DELL.com",
+                  "price": 4419
+                } ]
+      403: 
+        body:
+          application/json:
+            example:
+              {
+                "message": "Forbidden"
+              }
+    is: [respoMessage] 
+/products/{ID}: 
+  get:
+    description: users resource by http by id number
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+             {
+               "productid": 5,
+                  "categoryid": 40,
+                  "name": "FZAB",
+                  "description": "NEHAH", 
+                  "video_url": "www.APPLE.com",
+                  "price": 4417
+             }
+      403: 
+        body:
+          application/json:
+            example:
+              {
+                "message": "Forbidden"
+              }
+    is: [respoMessage] 
+/orders:
+  get:
+    responses:
+      500:
+        body:
+          application/json:
+           example:
+            {
+              "timestamp": 1564746377463,
+              "status": 500,
+              "error": "Internal Server Error",
+              "message": " ", 
+              "path": "/orders"
+            }
+      200:
+        body:
+          application/json:
+            example:
+             {
+              "message": "ok"
+             }
+      403: 
+        body:
+          application/json:
+            example:
+              {
+                "message": "Forbidden"
+              }
+
+    is: [respoMessage] 
+/orders/{ID}:
+  get:
+    responses:
+      403: 
+        body:
+          application/json:
+            example:
+              {
+                "message": "Forbidden"
+              }
+
+    is: [respoMessage] 
+
+/orders{/userID}:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+             {
+              "orderID": 155,
+              "userID": 1888,
+              "addressID": 202,
+              "discountID": 2,
+              "created": 15646373737638483,
+              "modified": "null",
+              "status": "Accepted",
+              "amount": 1550
+             }
+      403: 
+        body:
+          application/json:
+            example:
+              {
+                "message": "Forbidden"
+              }
+
+    is: [respoMessage] 
+  post:
+    responses:
+      
+      201:
+        body:
+          application/json:
+            example:
+              {
+             "uid": 1526
+              }
+
+      403: 
+        body:
+            application/json:
+              example:
+                {
+                "message": "Forbidden"
+              }
+    is: [respoMessage] 
+/categories: 
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              [
+             {
+                  "categoryid": 40,
+                  "name": "FZAB",
+                  "description": "NEHAH", 
+                  "video_url": "www.APPLE.com",
+                  "price": 4417
+             },
+            {
+                  "categoryid": 50,
+                  "name": "FZGAB",
+                  "description": "NEHAHU", 
+                  "video_url": "www.DELL.com",
+                  "price": 4418
+             },
+             {
+                  "categoryid": 80,
+                  "name": "FZGABY",
+                  "description": "NEHAHUG", 
+                  "video_url": "www.WINDOWS.com",
+                  "price": 4416
+             }
+              ]
+      403: 
+        body:
+          application/json:
+            example:
+              {
+                "message": "Forbidden"
+              }
+
+    is: [respoMessage] 
+
+/categories/{ID}: 
+  get:
+    description: users resource http by ID number
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              {
+                  "categoryid": 80,
+                  "productid": 19,
+                  "name": "FZGABY",
+                  "description": "NEHAHUG", 
+                  "video_url": "www.WINDOWS.com",
+                  "price": 4416
+             }
+             
+      403: 
+        body:
+          application/json:
+            example:
+              {
+                "message": "Forbidden"
+              }
+
+
+      
+
+  

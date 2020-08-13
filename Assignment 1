@@ -1,0 +1,458 @@
+#%RAML 1.0
+title: Craft-online-Shopping
+version: 1.0
+/users:
+  description: This is the users resources
+  get:
+    description: users resource get http status code responses
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              [  {
+      "userid": 900,
+      "email": "abcdkkk@gmail.com",
+      "date_joined": -1573012800000,
+      "modified": 1582747201000,
+      "type": 1,
+      "deleted": false,
+      "username": "Abc"
+   },
+      {
+      "userid": 1000,
+      "email": "Betty@gmail.com",
+      "date_joined": 1589068800000,
+      "modified": 1586044800000,
+      "type": 5,
+      "deleted": false,
+      "username": "Cristina"
+              }
+              ]
+
+      401:
+        body:
+          application/json:
+            example:
+              {
+                "message":unauthorized "
+              }
+      403:
+        body:
+          application/json:
+            example:
+              {
+                "message":"Forbidden"
+              }
+      404:
+        body:
+          application/json:
+            example:
+              {
+                "message":" not found"
+              }
+  /{userId}:
+    get:
+      description: users resource
+      responses:
+        200:
+          body:
+            application/json:
+               example:
+                  {
+      "userid": 900,
+      "email": "abcdkkk@gmail.com",
+      "date_joined": -1573012800000,
+      "modified": 1582747201000,
+      "type": 1,
+      "deleted": false,
+      "username": "Abc"
+   }
+
+
+        401:
+          body:
+            application/json:
+              example:
+                {
+                "message":"unauthorized "
+              }
+        403:
+          body:
+            application/json:
+              example:
+                {
+                "message":"Forbidden"
+              }
+        404:
+          body:
+           application/json:
+            example:
+              {
+                "message":" not found"
+              }
+  post:
+    description: list of post status codes
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              {
+                "uid":1526
+              }
+      401:
+        body:
+          application/json:
+            example:
+              {
+                "message":"unauthorized "
+              }
+      403:
+        body:
+          application/json:
+            example:
+              {
+                "message":"Forbidden"
+              }
+      404:
+        body:
+          application/json:
+            example:
+              {
+                "message":"sorry not found"
+              }
+
+/product:
+  description: This is the products resources
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              [
+                {
+      "productid": 0,
+      "categoryid": 10,
+      "name": "FZA",
+      "description": "NEHA",
+      "video_url": "www.craft.com",
+      "price": 4414
+   },
+      {
+      "productid": 1,
+      "categoryid": 15,
+      "name": "DELL PC",
+      "description": "CORE I 7",
+      "video_url": "WWW.DELL.COM",
+      "price": 2000
+   },
+      {
+      "productid": 2,
+      "categoryid": 18,
+      "name": "DELL PC",
+      "description": "CORE I 7",
+      "video_url": "WWW.DELL.COM",
+      "price": 2000
+   },
+              ]
+
+      401:
+        body:
+          application/json:
+            example:
+              {
+                "message":unauthorized user"
+              }
+      403:
+        body:
+          application/json:
+            example:
+              {
+                "message":"Forbidden"
+              }
+      404:
+        body:
+          application/json:
+            example:
+              {
+                "message":"sorry not found"
+              }
+  /{productsId}:
+    get:
+      description: users resource  http by id number
+      responses:
+        400:
+          body:
+            application/json:
+              example:
+                {
+                  “message”: "Not Found",
+                }
+        401:
+          body:
+           application/json:
+            example:
+              {
+                "message":"unauthorized "
+              }
+        403:
+          body:
+           application/json:
+            example:
+              {
+                "message":"Forbidden"
+              }
+        200:
+          body:
+            application/json:
+              example:
+                     [
+                  {
+      "productid": 0,
+      "categoryid": 10,
+      "name": "FZA",
+      "description": "NEHA",
+      "video_url": "www.craft.com",
+      "price": 4414
+   },
+                ]
+/orders:
+  get:
+    responses:
+      500:
+        body:
+          application/json:
+            example:
+                {
+   "timestamp": 1596306233444,
+   "status": 500,
+   "error": "Internal Server Error",
+   "message": "",
+   "path": "/orders"
+}
+      200:
+        body:
+          application/json:
+            example:
+              {
+                "ok"
+              }
+
+
+      401:
+        body:
+          application/json:
+            example:
+              {
+                "message":"unauthorized "
+              }
+      403:
+        body:
+          application/json:
+            example:
+              {
+                "message":"Forbidden"
+              }
+      404:
+        body:
+          application/json:
+            example:
+              {
+    “message”: "Not Found",
+
+
+              }
+
+  /{orderId}:
+    get:
+      responses:
+        404:
+          body:
+            application/json:
+              example:
+                  {
+
+      “message”: "Not Found",
+
+              }
+        403:
+          body:
+            application/json:
+              example:
+                {
+                "message":"sorry not found"
+              }
+        401:
+          body:
+            application/json:
+              example:
+                {
+                "message":"Forbidden"
+             }
+  /{ordersUid}:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                {
+   "orderid": 144,
+   "userid": 1089,
+   "addressid": 201,
+   "discountid": 1,
+   "created": 1591121384000,
+   "modified": null,
+   "status": "Accepted",
+   "amount": 1000
+}
+
+        401:
+          body:
+            application/json:
+              example:
+                {
+                "message":"unauthorized "
+              }
+        403:
+          body:
+            application/json:
+              example:
+                {
+                "message":"Forbidden"
+              }
+        404:
+          body:
+            application/json:
+              example:
+                {
+                  “message”: "Not Found",
+                }
+  post:
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              {
+                "orderid":1526
+              }
+      401:
+        body:
+          application/json:
+            example:
+              {
+                "message":"unautrized user"
+              }
+      403:
+        body:
+          application/json:
+            example:
+              {
+                "message":"Forbidden"
+              }
+      404:
+        body:
+          application/json:
+            example:
+              {
+                "message":"sorry not found"
+              }
+/categories/:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              [
+                {
+      "catagoryid": 0,
+      "categoryid": 10,
+      "name": "FZA",
+      "description": "NEHA",
+      "video_url": "www.craft.com",
+      "price": 4414
+   },
+      {
+      "productid": 1,
+      "categoryid": 15,
+      "name": "DELL PC",
+      "description": "CORE I 7",
+      "video_url": "WWW.DELL.COM",
+      "price": 2000
+   },
+      {
+      "productid": 2,
+      "categoryid": 18,
+      "name": "DELL PC",
+      "description": "CORE I 7",
+      "video_url": "WWW.DELL.COM",
+      "price": 2000
+   },
+              ]
+
+      401:
+        body:
+          application/json:
+            example:
+              {
+                "message":unauthorized "
+              }
+      403:
+        body:
+          application/json:
+            example:
+              {
+                "message":"Forbidden"
+              }
+      404:
+        body:
+          application/json:
+            example:
+              {
+                "message":"not found"
+              }
+  /{categoryId}:
+    get:
+      description: users resource  http by id number
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                [
+                {
+      "productid": 0,
+      "categoryid": 10,
+      "name": "FZA",
+      "description": "NEHA",
+      "video_url": "www.craft.com",
+      "price": 4414
+   },
+      ]
+
+
+        401:
+          body:
+           application/json:
+            example:
+              {
+                "message":"unauthorized "
+              }
+        403:
+          body:
+           application/json:
+            example:
+              {
+                "message":"Forbidden"
+              }
+        404:
+          body:
+            application/json:
+              example:
+                {
+                "message":"sorry not found"
+              }

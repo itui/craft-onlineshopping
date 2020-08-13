@@ -1,0 +1,126 @@
+
+
+#%RAML 1.0
+title: Craft-online-Shopping
+version: 1.0
+types:
+  users: !include DataType/user.raml
+traits:
+  respoMessage: !include Traits/responces.raml
+/users:
+  description: This is the users resources
+  get:
+    description: users resource get http status code responses
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include Examples/user.json
+
+    is: [respoMessage]
+
+  /users{Id}:
+    get:
+      description: users resource
+      responses:
+        200:
+          body:
+            application/json:
+               example: !include Examples/userId.json
+
+
+    is: [respoMessage]
+
+  post:
+    description: list of post status codes
+    responses:
+      201:
+        body:
+          application/json:
+            example:
+              {
+                "orderid":1526
+              }
+
+    is: [respoMessage]
+/product:
+  description: This is the products resources
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include Examples/user.json
+
+    is: [respoMessage]
+
+  /products/{Id}:
+    get:
+      description: users resource  http by id number
+      responses:
+
+        200:
+          body:
+            application/json:
+              example: !include Examples/userId.json
+
+    is: [respoMessage]
+
+/orders:
+  get:
+    responses:
+      500:
+        body:
+          application/json:
+            example: !include Examples/user.json
+    is: [respoMessage]
+
+
+  /order{id}:
+    get:
+      responses:
+        404:
+          body:
+            application/json:
+              example:  !include Examples/userId.json
+    is: [respoMessage]
+
+  /orders{/uid}:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              example:  !include Examples/userId.json
+
+    is: [respoMessage]
+
+  post:
+    responses:
+      201:
+        body:
+          application/json:
+            example:
+              {
+                "orderid":1526
+              }
+    is: [respoMessage]
+/categories/:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include Examples/user.json
+    is: [respoMessage]
+
+  /{category/Id}:
+    get:
+      description: users resource  http by id number
+      responses:
+        200:
+          body:
+            application/json:
+              example:  !include Examples/userId.json
+
+    is: [respoMessage]
