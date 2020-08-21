@@ -1,0 +1,39 @@
+#%RAML 1.0 ResourceType
+get:
+  description: The resource <<resourcePathName>> not found
+  responses:            
+    404:
+      body:
+        application/json:
+          example:
+            {
+              message: <<resourcePath>> not found
+            }
+delete:
+  description: the resource <<resourcedelete>> is deleted
+  responses:
+    200:
+      body:
+        application/json:
+          example:
+            {
+                message: <<resourcedeleted>> is deleted
+            }
+post:
+  description: Resource <<resourcecreate>> has been created
+  responses:
+    200:
+      body:
+       application/json:
+        example: {
+                    message: <<resourcecreated>> has been created
+                 } 
+put:
+  description: The resource <<resourceedit>> has been edited
+  responses:
+    200:
+      body:
+        application/json:
+          example: {
+                      message: <<resourceedited>> has been edited
+                   }                                        

@@ -1,0 +1,17 @@
+#%RAML 1.0 Trait
+queryParameters:
+      category id:
+        description: category id 
+        type: integer
+        required: false
+      fullname:
+        description: shows the fullname of the user
+        type: string
+        required: false
+      username:
+        description: shows the username parameters
+        type: string
+        required: false
+        minLength: 3
+        maxLength: 10
+        default: Jhon

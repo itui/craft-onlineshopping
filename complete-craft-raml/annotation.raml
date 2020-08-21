@@ -1,0 +1,23 @@
+#%RAML 1.0 AnnotationTypeDeclaration
+description: annotations define, clarify or gives you a clear view about the overall RAML. It helps us to understnd the RAML.
+allowedTargets: [methods]
+properties:
+  usage:
+    description: use these annotation to understand the overall or the general info about the online shopping REST API
+  controller:
+    description: The user or the developer must be informed about the metadata
+    properties:
+      url:
+        description: dev.icraftsoft.net is the url used to access these REST API
+        default: href
+      protocol:
+        description: These REST API uses HTTP protocol
+        default: HTTP
+      visibilty?:
+        description: Should the user or the developer need to know the url to use the HTTP method of the REST API
+        type: boolean
+        default: true 
+      methodusage: 
+        description: Does the user have privilage to use all the HTTP methods
+        type: boolean
+        default: false 

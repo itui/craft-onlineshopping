@@ -1,0 +1,11 @@
+#%RAML 1.0 ResourceType
+get:
+  description: The server resource <<resourcedata>> not found
+  responses:            
+    501:
+      body:
+        application/json:
+          example:
+            {
+              message: <<resourcedatas>> server failed
+            }
