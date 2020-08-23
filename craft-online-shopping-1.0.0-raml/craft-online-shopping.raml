@@ -1,5 +1,5 @@
 #%RAML 1.0
-baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/0d0500a1-0714-4083-b7ef-78f369a190bb/ # 
+baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/161dbf31-4669-4a9c-9451-cf30e8bc6baa/ # 
 title: craft-online-shopping
 version: 1.0
 mediaType: 
@@ -17,7 +17,7 @@ documentation:
         body:
           application/json:
             type: mylib.userdatatypes[]
-            example: !include examples/users.json  
+            example: !include examples/users.raml 
     is: 
     - mylib.traitresponse:
     - mylib.userquery:
@@ -34,7 +34,7 @@ documentation:
         body:
           application/json:
             type: mylib.userdatatypes[]
-            example: !include examples/users.json                   
+            example: !include examples/users.raml                  
     is: 
     - mylib.traitresponse:
     - mylib.postresponse:
@@ -47,7 +47,7 @@ documentation:
           body:
             application/json:
               type: mylib.userdatatypes[]
-              example: !include examples/users.json 
+              example: !include examples/users.raml 
 
       is: 
       - mylib.traitresponse:
@@ -66,7 +66,7 @@ documentation:
         body:
           application/json:
             type: mylib.productdatatypes[]
-            example: !include examples/products.json
+            example: !include examples/products.raml
              
     is: 
     - mylib.traitresponse:
@@ -85,7 +85,7 @@ documentation:
           body:
             application/json:
               type: mylib.productdatatypes[]
-              example: !include examples/products.json
+              example: !include examples/products.raml
 
     is: 
     - mylib.traitresponse:
@@ -104,7 +104,7 @@ documentation:
         body:
           application/json:
             type: mylib.orderdatatypes[]
-            example: !include examples/orders.json
+            example: !include examples/orders.raml
 
     is: 
     - mylib.traitresponse:
@@ -122,7 +122,7 @@ documentation:
         body:
           application/json:
             type: mylib.orderdatatypes[]
-            example: !include examples/orders.json
+            example: !include examples/orders.raml
 
     is: 
     - mylib.traitresponse:
@@ -136,7 +136,7 @@ documentation:
           body:
             application/json:
               type: mylib.orderdatatypes[]
-              example: !include examples/orders.json
+              example: !include examples/orders.raml
                
     is: 
     - mylib.traitresponse:
@@ -155,7 +155,7 @@ documentation:
           body:
             application/json:
               type: mylib.orderdatatypes[]
-              example: !include examples/orders.json
+              example: !include examples/orders.raml
                 
     is: 
     - mylib.traitresponse:
@@ -174,7 +174,7 @@ documentation:
         body:
           application/json:
             type: mylib.categorydatatypes[]
-            example: !include examples/category.json
+            example: !include examples/category.raml
             
     is: 
     - mylib.traitresponse:
@@ -193,7 +193,7 @@ documentation:
           body:
             application/json:
               type: mylib.categorydatatypes[]
-              example: !include examples/category.json
+              example: !include examples/category.raml
           
     is: 
     - mylib.traitresponse:
