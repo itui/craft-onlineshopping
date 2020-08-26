@@ -1,0 +1,22 @@
+#%RAML 1.0 DataType
+# {
+#     "userid": 1003,
+#     "email":  "abc@gmail.com",
+#     "date_joined": 1274279796000,
+#     "modified": 1430611211000,
+#     "type": 5,
+#     "deleted": false,
+#     "username": "john green"
+#   } 
+
+
+type: object
+description: Users data type
+properties:
+  userid: integer
+  email: string
+  date_joined: date-only
+  modified: integer
+  type: integer
+  deleted: boolean
+  username: string
