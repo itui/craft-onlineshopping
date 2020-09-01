@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="bd9b7344-e92e-446c-a758-1ed087b22efd" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="craftass2Flow" doc:id="acaf48eb-3458-40ce-8cfc-cb145aca2b93" >
+		<http:listener doc:name="work 1" doc:id="dcaa5294-564d-4f0f-b82a-45c27dd70b14" config-ref="HTTP_Listener_config" path="/work1"/>
+		<ee:transform doc:name="Transform Message" doc:id="83ceeccb-1799-4a96-b951-f04fe881bdfb" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+
+---
+payload.user map (value,index) -> {(index):value}
+
+
+
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="craftass2Flow2" doc:id="3d8ec6f4-a155-4a03-ae8b-8293947145fe">
+		<http:listener doc:name="work 2" doc:id="ec3a44d1-789e-40fe-b15f-f78edc7477ec" config-ref="HTTP_Listener_config" path="/work2" />
+		<ee:transform doc:name="Transform Message" doc:id="841c164f-b551-4e3a-8719-dce510f51dd6">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+var az = "ABC -> "
+---
+
+payload map (value,index) -> {
+       ("id") : value.id,
+       ("itemname") : az ++ value.itemname,
+       ("itemcode") : value.itemcode,
+       ("price") : value.price * 2
+    
+    } ]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="craftass2Flow3" doc:id="b7c97cd4-371a-492c-8f55-6919891e62a6">
+		<http:listener doc:name="work 3" doc:id="06ea24e2-0f80-45c6-8706-0ff4c9eb7a39" config-ref="HTTP_Listener_config" path="/work3" />
+		<ee:transform doc:name="Transform Message" doc:id="9663e40d-73c5-412f-aac3-7b5ce24b3e05">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/xml
+ns listofitems http://www.craft.com/items
+---
+root:
+
+listofitems#items: {
+		items: payload map (value,index) -> (value)
+		}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="craftass2Flow4" doc:id="643788e2-89cd-414c-bb45-2d15e49b9b03">
+		<http:listener doc:name="work 4" doc:id="9229b805-4b71-468b-85b1-b9f2a2947f13" config-ref="HTTP_Listener_config" path="/work4" />
+		<ee:transform doc:name="Transform Message" doc:id="4bed2951-72f7-4c53-8ce6-c587d8dfd4e5">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/xml
+---
+//json result
+//payload map (value,index) -> valuesOf(value) joinBy " , "
+
+//xml result
+Allitems: {
+    items: payload map (value,index)->valuesOf(value) joinBy " , "
+}
+
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="craftass2Flow1" doc:id="77b90871-400a-407f-89da-68adcabc7792" >
+		<http:listener doc:name="work 5" doc:id="8422d352-750e-4dba-adea-fbcc9428e2b3" config-ref="HTTP_Listener_config" path="/work5"/>
+		<ee:transform doc:name="Transform Message" doc:id="3c87fb5b-fd6e-4443-87be-5e51b93e13b6" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	users: payload.user map (value,user) -> user : value
+}	
+	
+	
+ 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="craftass2Flow5" doc:id="189aeb06-32eb-467a-902f-a95a87564ff9" >
+		<http:listener doc:name="work 6" doc:id="642ba56f-483b-4974-90db-10609510d1d5" config-ref="HTTP_Listener_config" path="/work6"/>
+		<ee:transform doc:name="Transform Message" doc:id="a4c4292f-e8fc-4aef-8bb0-b7227069b21a" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+
+---
+payload.employeers.*employee.*empAge
+
+
+
+
+
+
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

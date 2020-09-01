@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="ques1" format="json">
+      <types:shape format="weave" example="examples/Q1&amp;5 input.json"><![CDATA[%dw 2.0
+
+type ques1 = {|
+  user: Array<{|    id: String,     firstname: String,     middlename: String,     lastname: String,     city: String,     state: String,     address: String,     email: String  |}>
+|} {"example": "{\\\"user\\\":[{\\\"id\\\":\\\"693cacff-147d-4b84-add8-dad773730508\\\",\\\"firstname\\\":\\\"piter\\\",\\\"middlename\\\":\\\"gg\\\",\\\"lastname\\\":\\\"gg\\\",\\\"city\\\":\\\"jj\\\",\\\"state\\\":\\\"New York\\\",\\\"address\\\":\\\"gg\\\",\\\"email\\\":\\\"ggh@hh.nn\\\"},{\\\"id\\\":\\\"53634496-86ee-420b-9d36-64969e417833\\\",\\\"firstname\\\":\\\"tomas\\\",\\\"middlename\\\":\\\"dsfsd\\\",\\\"lastname\\\":\\\"dsfsdf\\\",\\\"city\\\":\\\"AA\\\",\\\"state\\\":\\\"California\\\",\\\"address\\\":\\\"sdsd\\\",\\\"email\\\":\\\"dsdsf@gmail.com\\\"}]}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="ques234" format="json">
+      <types:shape format="weave" example="examples/Q234 input.json"><![CDATA[%dw 2.0
+
+type ques234 = Array<{|  id: String,   itemname: String,   itemcode: String,   price: String|}> {"example": "[{\\\"id\\\":\\\"693cacff-147d-4b84-add8-dad773730508\\\",\\\"itemname\\\":\\\"ss\\\",\\\"itemcode\\\":\\\"0001\\\",\\\"price\\\":\\\"50\\\"},{\\\"id\\\":\\\"693cacff-147d-4b84-add8-dad773730508\\\",\\\"itemname\\\":\\\"bcc\\\",\\\"itemcode\\\":\\\"0002\\\",\\\"price\\\":\\\"100\\\"},{\\\"id\\\":\\\"693cacff-147d-4b84-add8-dad773730508\\\",\\\"itemname\\\":\\\"hj\\\",\\\"itemcode\\\":\\\"0003\\\",\\\"price\\\":\\\"200\\\"},{\\\"id\\\":\\\"693cacff-147d-4b84-add8-dad773730508\\\",\\\"itemname\\\":\\\"uiu\\\",\\\"itemcode\\\":\\\"0004\\\",\\\"price\\\":\\\"20\\\"}]"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="ques6" format="xml">
+      <types:example format="xml" element="employeers" location="examples/Q6 input.xml"/>
+    </types:type>
+    <types:type name="aa" format="json">
+      <types:shape format="weave" example="examples/adminjson.json"><![CDATA[%dw 2.0
+
+type aa = Array<{|  name: String,   age: Number {"typeId": "int"},   rights: Array<String>
+|}> {"example": "[{\\\"name\\\":\\\"Admin\\\",\\\"age\\\":36,\\\"rights\\\":[\\\"admin\\\",\\\"editor\\\",\\\"contributor\\\"]},{\\\"name\\\":\\\"gsd\\\",\\\"age\\\":25,\\\"rights\\\":[\\\"admin\\\",\\\"editor\\\"]},{\\\"name\\\":\\\"Adtd\\\",\\\"age\\\":52,\\\"rights\\\":[\\\"editor\\\",\\\"contributor\\\"]},{\\\"name\\\":\\\"we\\\",\\\"age\\\":54,\\\"rights\\\":[\\\"admin\\\",\\\"contributor\\\"]}]"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#83ceeccb-1799-4a96-b951-f04fe881bdfb">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="ques1"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#3c87fb5b-fd6e-4443-87be-5e51b93e13b6">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="ques1"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#841c164f-b551-4e3a-8719-dce510f51dd6">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="ques234"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#9663e40d-73c5-412f-aac3-7b5ce24b3e05">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="ques234"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#4bed2951-72f7-4c53-8ce6-c587d8dfd4e5">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="ques234"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#a4c4292f-e8fc-4aef-8bb0-b7227069b21a">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="ques6"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>

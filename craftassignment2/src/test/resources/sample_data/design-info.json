@@ -1,0 +1,26 @@
+{
+  "sampleData": {
+    "83ceeccb-1799-4a96-b951-f04fe881bdfb": {
+      "payload": "sample_data/json.json"
+    },
+    "3c87fb5b-fd6e-4443-87be-5e51b93e13b6": {
+      "payload": "sample_data/json_1.json"
+    },
+    "841c164f-b551-4e3a-8719-dce510f51dd6": {
+      "payload": "sample_data/list_json.json"
+    },
+    "9663e40d-73c5-412f-aac3-7b5ce24b3e05": {
+      "payload": "sample_data/list_json_1.json"
+    },
+    "4bed2951-72f7-4c53-8ce6-c587d8dfd4e5": {
+      "payload": "sample_data/list_json_2.json"
+    },
+    "b77964e5-051d-4979-9afa-3e4fd09f37aa": {
+      "payload": "sample_data/list_json_3.json"
+    },
+    "a4c4292f-e8fc-4aef-8bb0-b7227069b21a": {},
+    "18c41cc4-2d4b-4bdb-b3db-79138620d588": {
+      "payload": "sample_data/list_json_4.json"
+    }
+  }
+}
