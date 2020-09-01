@@ -258,10 +258,107 @@ output application/csv
 postman output: fName,lName,age,Address,City,State,Zipe code,phone number
 Jone,Anderson,52,1504 Lock wood drive,Silver Spring,MD,20904,-10038
  
-5. csv to Json conversion
+ csv to Json conversion
 [
     "fName,lName,age,Address,City,State,Zipe code,phone number\nJone,Anderson,52,1504 Lock wood drive,Silver Spring,MD,20904"
 ]
 
+5. Warning message
 
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="a9f1fd56-f78b-464f-a588-766bab3ad661" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="hellomuleFlow" doc:id="563ff97f-0a67-4229-85a6-b8694d7c2aaa" >
+		<http:listener doc:name="Listener" doc:id="530a865e-9fce-4341-b693-d0311c26c4fd" config-ref="HTTP_Listener_config" path="/Hellomule" allowedMethods="GET"/>
+		<set-payload value='"Hello World"' doc:name="Set Payload" doc:id="ab32cebd-a3e4-4876-bb92-cca4c91f0dda" />
+		<ee:transform doc:name="Transform Message" doc:id="be50e5e2-a184-4693-9608-012e5f7cae8a" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+var myvar = "Hello World"
+---
+myvar]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="895d25bd-451e-4fa3-893f-fea48141581d" message='"invoked hellow World"'/>
+	</flow>
+	<flow name="user-Flow" doc:id="0c1f3329-fd61-4f6e-9a62-ad9140d30e46" >
+		<http:listener doc:name="get-user_Listener" doc:id="bf1aff63-1fd5-4740-9673-e6768bb0bdf4" config-ref="HTTP_Listener_config" path="/userName" allowedMethods="GET" />
+		<ee:transform doc:name="Transform Message" doc:id="557fa654-7037-4364-bc81-f0322ae21a6e" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+
+---
+["Jone", "Anderson", "your age is 52", "Thank You!"]
+ map (value, index)->  (index) :value]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="get-user_Logger" doc:id="567599ed-7351-4994-addc-7bf59facace3" message='"invoked hellow World"' />
+	</flow>
+	<flow name="postman-user-Flow" doc:id="99223578-00b7-41e3-b1cd-87bf4a0a3061" >
+		<http:listener doc:name="getuser_Listener" doc:id="56853b9f-d75a-4b07-b963-66ee87f21e24" config-ref="HTTP_Listener_config" path="/username" allowedMethods="GET" />
+		<ee:transform doc:name="UserTransform Message" doc:id="a9e2cc29-5764-4082-bdf2-ec7c22d95d55" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+
+---
+
+	
+                 {
+              "fName": "Jone",
+              "lName": "Anderson",
+              "age": 52,
+              "Address": "1504 Lock wood drive", 
+              "City": "Silver Spring",
+              "State": "MD",
+              "Zipe code": 20904,
+              "phone number": 240-492-9786,
+             
+              }]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="get-user_Logger" doc:id="12a12fa8-3eac-46bc-aca9-e1507c24b150" message='"invoked user information"' />
+	</flow>
+	<flow name="cvs-json-user-Flow" doc:id="18161243-113a-4648-a3de-91c9adff216b" >
+		<http:listener doc:name="cvs-getuser_Listener" doc:id="07317351-2c1a-4987-b49a-8b4654730c94" config-ref="HTTP_Listener_config" path="/cvsJSON" allowedMethods="GET" />
+		<ee:transform doc:name="cvs_UserTransform Message" doc:id="c47c034d-0c17-4433-9b89-53321e227518">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/csv
+
+---
+
+[ 
+	"fName,lName,age,Address,City,State,Zipe code,phone number
+Jone,Anderson,52,1504 Lock wood drive,Silver Spring,MD,20904"]
+	]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="cvs-user_Logger" doc:id="0cc698df-539b-4b24-a1c1-ac99fa6cf0f7" message='"invoked cvs to json"' />
+	</flow>
+	<flow name="error-json-user-Flow" doc:id="caca8187-025e-4518-966f-1ad3b2b224dd" >
+		<http:listener doc:name="error-getuser_Listener" doc:id="eb179e05-8cc7-48fb-8c2c-3d03dd4a6872" config-ref="HTTP_Listener_config" path="/error-warning" allowedMethods="GET" />
+		<ee:transform doc:name="warning-Transform Message" doc:id="fdebb40e-fac3-4549-bdbb-79e68585195f">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/Json
+var myvar = "This is warning message"
+---
+myvar]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="warning_Logger" doc:id="06c06c7f-eb8d-42ea-ab69-03e5ec92ae19" message='"invoked warninin message"' />
+	</flow>
+
+</mule>
+postman output: "This is warning message"
 
