@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="product" format="json">
+      <types:shape format="weave" example="examples/product1.1.json"><![CDATA[%dw 2.0
+
+type product = {|
+  barcode: String, 
+  name: String, 
+  productCategory: String, 
+  rate: Number {"typeId": "int"}
+|} {"example": "{\\\"barcode\\\":\\\"test\\\",\\\"name\\\":\\\"test\\\",\\\"productCategory\\\":\\\"test\\\",\\\"rate\\\":50}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#69b5a539-fce5-4c61-9207-1bc7434ae7ad">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="product"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>
