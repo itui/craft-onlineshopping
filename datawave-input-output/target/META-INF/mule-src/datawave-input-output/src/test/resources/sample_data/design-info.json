@@ -1,0 +1,34 @@
+{
+  "sampleData": {
+    "a197d930-ca05-428d-9c55-20552e7db880": {
+      "payload": "sample_data/json_1.json"
+    },
+    "40fbe02d-a60d-472b-8566-6f2fb7256de3": {
+      "payload": "sample_data/json.json"
+    },
+    "c4a6e444-812c-42be-aee3-4f7adce199e8": {
+      "payload": "sample_data/list_json_1.json"
+    },
+    "fa42bb36-11b6-40d0-8b07-54753b308cce": {
+      "payload": "sample_data/unknown.dwl"
+    },
+    "37de2b46-dc7c-4798-9ceb-b0e26e6968a1": {
+      "payload": "sample_data/list_json_2.json"
+    },
+    "83add072-cba1-4c9a-964e-f784b8ad57d8": {
+      "payload": "sample_data/list_json_3.json"
+    },
+    "1ae08b39-cf9a-4df2-bcb2-f4c6824e1150": {
+      "payload": "sample_data/json_2.json"
+    },
+    "546ceede-4047-4304-8f9c-14b6c74641eb": {
+      "payload": "sample_data/list_json_4.json"
+    },
+    "465b9ba8-9ca5-42aa-95b0-ebb3986213cb": {
+      "payload": "sample_data/employeers.xml"
+    },
+    "2ec01414-d77f-45a1-a58a-7c93a50a3c02": {
+      "payload": "sample_data/list_unknown.csv"
+    }
+  }
+}
