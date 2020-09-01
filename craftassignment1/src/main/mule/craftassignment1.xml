@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="b56f8b5f-d7bc-47c2-a383-4c7fe03393da" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="craftassignment1Flow" doc:id="eb4b5ee5-e37e-43df-aa3b-baf2947bf7fd" >
+		<http:listener doc:name="Question 1" doc:id="994e629b-c054-484b-88ba-f371ea0af67c" path="/q1" config-ref="HTTP_Listener_config"/>
+		<set-payload value="Hello World!" doc:name="Set Payload" doc:id="e2676ce3-612e-40f8-ba8a-8e9b96652972" />
+		<logger level="INFO" doc:name="Logger" doc:id="e448354c-ad82-46df-bb08-e4cfb58af626" message="#[payload]"/>
+	</flow>
+	<flow name="craftassignment1Flow1" doc:id="3697e427-5415-49bd-8251-12691b82a953" >
+		<http:listener doc:name="Question 2" doc:id="baedb5c2-183e-452c-9cd1-bf6683790414" config-ref="HTTP_Listener_config" path="/q2"/>
+		<set-variable value="Thank you!" doc:name="Set Variable" doc:id="478fccaf-1ea4-444f-8edc-0d4cdddf789e" variableName="thank"/>
+		<ee:transform doc:name="Transform Message" doc:id="8727b246-62a3-4d2b-abdb-0a86373a852e" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+var fname = attributes.queryParams.fname
+var lname = attributes.queryParams.lname
+var age = attributes.queryParams.age
+---
+if (fname == "Jhon" and lname == "Anderson" and age == "52")
+	{message: "Jhon Anderson your age is 52. " ++ vars.thank}
+	  else {
+  profile : "profile not found"
+  }]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="craftassignment1Flow2" doc:id="6876cda0-ba0b-48db-8583-c0a9604f5a8e" >
+		<http:listener doc:name="Question 5" doc:id="9b165b1e-87f3-4c0d-86ad-0c0dce55a226" config-ref="HTTP_Listener_config" path="/q5"/>
+		<set-variable value="This is a warning message" doc:name="Set Variable" doc:id="f01b7daa-1486-4117-8dcc-5c2f6e88c097" variableName="warning"/>
+		<ee:transform doc:name="Transform Message" doc:id="1edc8e0e-0820-426c-9c84-3f81a48e926c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+vars.warning ++ " " ++ payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
