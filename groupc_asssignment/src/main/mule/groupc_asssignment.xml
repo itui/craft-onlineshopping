@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="ca392317-016e-42e5-a3d2-67ec7a79d47a" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="question1" doc:id="ee91b453-6d7f-44db-96d3-e26916015197" >
+		<http:listener doc:name="Listener" doc:id="be40c761-79b4-47be-ba27-b4124374b4f3" config-ref="HTTP_Listener_config" path="/helloworld"/>
+		<ee:transform doc:name="Transform Message" doc:id="05c7d27b-b314-4568-92d0-2125394680eb" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+"hello world"]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="question2" doc:id="37933eef-b42b-4e06-891d-802e41579b4c" >
+		<http:listener doc:name="Listener" doc:id="9ffee24f-f957-4f8b-8af6-e01b8dd2dbbc" config-ref="HTTP_Listener_config" path="/transform"/>
+		<set-payload doc:name="Set Payload" doc:id="7b4c3fe4-ae0d-402d-9727-b1d3afe81007" value='#[attributes.queryParams.fname as String ++ " " ++ attributes.queryParams.lname as String ++  " your age is "  ++ attributes.queryParams.age as Number ++  " Thank you!"]'/>
+	</flow>
+	<flow name="question3" doc:id="adf22aa6-a19e-473b-9fd7-3c8febfbaad7" >
+		<http:listener doc:name="Listener" doc:id="29aacd2c-e8f9-4aa2-85e3-b261a41824f5" config-ref="HTTP_Listener_config" path="transform1"/>
+		<ee:transform doc:name="Transform Message" doc:id="046c4d64-942c-4e62-949e-afc2f20911fc">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/csv
+---
+payload.*user map{
+	Fname : $.Fname,
+	Lname:$ .Lname,
+	age:$.age,
+    address:$.address,
+    city:$.city,
+    state:$.state,
+    phoneno:$.phoneno
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="question4" doc:id="1cc89a6b-0475-4c83-b307-e4618e9cb80d" >
+		<http:listener doc:name="Listener" doc:id="d9509757-d4c6-47aa-b06e-83ededa470a7" config-ref="HTTP_Listener_config" path="transform2"/>
+		<ee:transform doc:name="Transform Message" doc:id="460e2f32-5f64-4479-87c5-2642019d02a1" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/csv
+---
+payload.*user map{
+	Fname : $.Fname,
+	Lname:$ .Lname,
+	age:$.age,
+    address:$.address,
+    city:$.city,
+    state:$.state,
+    phoneno:$.phoneno
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="e80dd34b-1a03-4194-ae60-417cb417898d" message="#[payload]" />
+		<set-payload value="#[%dw 2.0
+output application/json
+---
+payload]" doc:name="Set Payload" doc:id="7aeffb86-8581-471d-8bef-c85187ad20de" />
+	</flow>
+	<flow name="question5" doc:id="58262c38-4c07-4c02-ad98-2590d4e563fe" >
+		<http:listener doc:name="Listener" doc:id="c290d102-ffdd-4a64-a9ef-c54bf878ad51" config-ref="HTTP_Listener_config" path="transformer3"/>
+		<ee:transform doc:name="Transform Message" doc:id="68e51098-32e5-4753-9714-eb70a43cc3cf" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+'This warring message']]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<set-payload doc:name="Set Payload" doc:id="1db5929a-aea5-4fc5-a406-b8082adb5e10" value='#[payload ++ attributes.queryParams.name as String]'/>
+	</flow>
+	<flow name="Question1" doc:id="9a0741ca-ed90-4530-a9a6-d8b7a8137a70" >
+		<http:listener doc:name="Listener" doc:id="f7e546e0-533d-43e8-8c18-c456b084dfc7" config-ref="HTTP_Listener_config" path="/Question2"/>
+		<ee:transform doc:name="Transform Message" doc:id="b3a1390c-1c37-4e50-83d6-096427f01b63" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+"users":
+payload.user map (payload ,indexOfPayload)	-> {
+ user:{
+ 	ID: payload.id,
+ 	FIRSTNAME: payload.firstname ,
+    MIDDLENAME: payload.middlename, 
+    LASTNAME: payload .lastname,
+    CITY: payload.city,
+    CITY: payload.state,
+    ADDRESS: payload.address,
+    EMAIL:payload.email, 
+  }
+  }]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="Question2" doc:id="d4bff328-2a5c-48c4-8fca-92f012e68fa5">
+		<http:listener doc:name="Listener" doc:id="353d74e6-feda-4323-a108-b3924197c886" config-ref="HTTP_Listener_config" path="/Question4" />
+		<ee:transform doc:name="Transform Message" doc:id="77f80749-09ab-43bf-8b50-9a03899a7414">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload map{
+	id : $.id,
+	name :"ABC ->" ++ " " ++ $.itemname,
+	code: "Q123 ->" ++ " " ++ $.itemcode,
+	price:$.price as Number * 2
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="Question3" doc:id="81201a7d-8092-4125-b0b1-056219c25440">
+		<http:listener doc:name="Listener" doc:id="138b6fdd-c318-462a-a7a5-8994488f5fc2" config-ref="HTTP_Listener_config" path="transform8" />
+		<ee:transform doc:name="Transform Message" doc:id="abb14159-dc81-4c5b-99c7-574751bb848e">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/xml
+
+---
+
+  List_of_Items: { 
+  	(payload map (payload,index) ->{
+      
+      item @(id:payload.id, itemname:payload.itemname, itemcode:payload.itemcode, price: payload.price): null
+      
+      })
+      
+}
+      
+  
+			
+		
+		
+		
+	
+	
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="Question4" doc:id="830921b2-3a5b-404a-be3e-a6b849cb507b" >
+		<http:listener doc:name="Listener" doc:id="5e75fa2f-ca13-44a7-af22-fdca6abf017b" config-ref="HTTP_Listener_config" path="/Question5"/>
+		<ee:transform doc:name="Transform Message" doc:id="aeba0d28-ae78-4c1f-9d7b-468f33953b26" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map((value,index)->
+		value.id ++ "," ++ value.itemname ++ "," ++ value.itemcode ++ "," ++ value.price
+		
+	)]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="Question5" doc:id="066eafa7-abc4-46ee-a6b7-6d585f552b2c">
+		<http:listener doc:name="Listener" doc:id="b410cf43-624e-4bbd-b7d5-62a910737f3f" config-ref="HTTP_Listener_config" path="/Question1" />
+		<ee:transform doc:name="Transform Message" doc:id="f4fa13ee-d8f7-440f-97dd-b206ca1e94dc">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload.user map(value ,index) ->{(index) : value}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="Question6" doc:id="231e3f4f-ea81-4744-b926-99fc49f3b051" >
+		<http:listener doc:name="Listener" doc:id="cd448b4c-e234-4b19-8300-711d05da7b26" config-ref="HTTP_Listener_config" path="/transform4"/>
+		<ee:transform doc:name="Transform Message" doc:id="009dc4d1-f93a-40b5-bb30-0368e874dcf4" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload.employeers.*employee.empAge
+
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="Question7" doc:id="12bb456e-853e-4de3-ba5a-71e52effc43d" >
+		<http:listener doc:name="Listener" doc:id="bacb95a2-369a-4a18-908e-18e24ec8fba4" config-ref="HTTP_Listener_config" path="transform7"/>
+		<ee:transform doc:name="Transform Message" doc:id="e42658d6-60df-4841-8b7f-a9e6d5ad670d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/csv
+---
+payload.employeers.*employee map{
+	"employee Name" : $.empName,
+	"employee Age" : $.empAge,
+	"employee Salary": $.empSalary ,
+	"employee company": attributes.queryParams.company
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
+
