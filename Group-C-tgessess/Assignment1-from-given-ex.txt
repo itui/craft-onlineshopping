@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="project_1-5Flow" doc:id="2f819ada-5a8d-419c-be7f-733a7a53af10" >
+		<ee:transform doc:name="Transform Message" doc:id="73a2262a-510d-4aa6-b7ea-e2fce07cb35c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload.user map ((value, index)->"name"++ " " ++ value.lastname ++ "name:"++ " " ++ value."firstname") ]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
+json conversion
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="project_1-5Flow" doc:id="2f819ada-5a8d-419c-be7f-733a7a53af10" >
+		<ee:transform doc:name="Transform Message" doc:id="73a2262a-510d-4aa6-b7ea-e2fce07cb35c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload.user map ((value, index)->"name"++ " " ++ value.lastname ++ "name:"++ " " ++ value."firstname") ]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="project_1-5Flow1" doc:id="0b4e41d5-c2fc-4755-9fb9-988583b046e1" >
+		<ee:transform doc:name="Transform Message" doc:id="0944ee7f-bc1a-40c0-9a44-8ea9f111f196" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
+Review output:{
+  "user": [
+    {
+      "id": "693cacff-147d-4b84-add8-dad773730508",
+      "firstname": "piter",
+      "middlename": "gg",
+      "lastname": "gg",
+      "city": "jj",
+      "state": "New York",
+      "address": "gg",
+      "email": "ggh@hh.nn"
+    },
+    {
+      "id": "53634496-86ee-420b-9d36-64969e417833",
+      "firstname": "tomas",
+      "middlename": "dsfsd",
+      "lastname": "dsfsdf",
+      "city": "AA",
+      "state": "California",
+      "address": "sdsd",
+      "email": "dsdsf@gmail.com"
+    }
+  ]
+}
+xml conversion
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="project_1-5Flow" doc:id="2f819ada-5a8d-419c-be7f-733a7a53af10" >
+		<ee:transform doc:name="Transform Message" doc:id="73a2262a-510d-4aa6-b7ea-e2fce07cb35c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload.user map ((value, index)->"name"++ " " ++ value.lastname ++ "name:"++ " " ++ value."firstname") ]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="project_1-5Flow1" doc:id="0b4e41d5-c2fc-4755-9fb9-988583b046e1" >
+		<ee:transform doc:name="Transform Message" doc:id="0944ee7f-bc1a-40c0-9a44-8ea9f111f196" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+
+---
+user:payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
+<?xml version='1.0' encoding='UTF-8'?
+review output
+<user>
+  <user>
+    <id>693cacff-147d-4b84-add8-dad773730508</id>
+    <firstname>piter</firstname>
+    <middlename>gg</middlename>
+    <lastname>gg</lastname>
+    <city>jj</city>
+    <state>New York</state>
+    <address>gg</address>
+    <email>ggh@hh.nn</email>
+  </user>
+  <user>
+    <id>53634496-86ee-420b-9d36-64969e417833</id>
+    <firstname>tomas</firstname>
+    <middlename>dsfsd</middlename>
+    <lastname>dsfsdf</lastname>
+    <city>AA</city>
+    <state>California</state>
+    <address>sdsd</address>
+    <email>dsdsf@gmail.com</email>
+  </user>
+</user>
+csv conversion

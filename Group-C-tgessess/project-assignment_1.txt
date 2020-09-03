@@ -45,223 +45,159 @@ output application/java
 		<ee:transform doc:name="UserTransform Message" doc:id="a9e2cc29-5764-4082-bdf2-ec7c22d95d55" >
 			<ee:message >
 
-3.json
+3.<?xml version="1.0" encoding="UTF-8"?>
 
-<?xml version="1.0" encoding="UTF-8"?>
-
-<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
-	xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="a9f1fd56-f78b-464f-a588-766bab3ad661" >
-		<http:listener-connection host="0.0.0.0" port="8081" />
-	</http:listener-config>
-	<flow name="hellomuleFlow" doc:id="563ff97f-0a67-4229-85a6-b8694d7c2aaa" >
-		<http:listener doc:name="Listener" doc:id="530a865e-9fce-4341-b693-d0311c26c4fd" config-ref="HTTP_Listener_config" path="/Hellomule" allowedMethods="GET"/>
-		<set-payload value='"Hello World"' doc:name="Set Payload" doc:id="ab32cebd-a3e4-4876-bb92-cca4c91f0dda" />
-		<ee:transform doc:name="Transform Message" doc:id="be50e5e2-a184-4693-9608-012e5f7cae8a" >
+	<flow name="project_1-5Flow" doc:id="2f819ada-5a8d-419c-be7f-733a7a53af10" >
+		<ee:transform doc:name="Transform Message" doc:id="73a2262a-510d-4aa6-b7ea-e2fce07cb35c" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
-var myvar = "Hello World"
 ---
-myvar]]></ee:set-payload>
+payload.user map ((value, index)->"name"++ " " ++ value.lastname ++ "name:"++ " " ++ value."firstname") ]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="895d25bd-451e-4fa3-893f-fea48141581d" message='"invoked hellow World"'/>
-	</flow>
-	<flow name="user-Flow" doc:id="0c1f3329-fd61-4f6e-9a62-ad9140d30e46" >
-		<http:listener doc:name="get-user_Listener" doc:id="bf1aff63-1fd5-4740-9673-e6768bb0bdf4" config-ref="HTTP_Listener_config" path="/userName" allowedMethods="GET" />
-		<ee:transform doc:name="Transform Message" doc:id="557fa654-7037-4364-bc81-f0322ae21a6e" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
-
----
-["Jone", "Anderson", "your age is 52", "Thank You!"]
- map (value, index)->  (index) :value]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
-		<logger level="INFO" doc:name="get-user_Logger" doc:id="567599ed-7351-4994-addc-7bf59facace3" message='"invoked hellow World"' />
-	</flow>
-	<flow name="postman-user-Flow" doc:id="99223578-00b7-41e3-b1cd-87bf4a0a3061" >
-		<http:listener doc:name="getuser_Listener" doc:id="56853b9f-d75a-4b07-b963-66ee87f21e24" config-ref="HTTP_Listener_config" path="/username" allowedMethods="GET" />
-		<ee:transform doc:name="UserTransform Message" doc:id="a9e2cc29-5764-4082-bdf2-ec7c22d95d55" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
-
----
-
-	
-               {
-              "fName": "Jone",
-              "lName": "Anderson",
-              "age": 52,
-              "Address": "1504 Lock wood drive", 
-              "City": "Silver Spring",
-              "State": "MD",
-              "Zipe code": 20904,
-              "phone number": 240-492-9786,
-             
-              }]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
-		<logger level="INFO" doc:name="get-user_Logger" doc:id="12a12fa8-3eac-46bc-aca9-e1507c24b150" message='"invoked user information"' />
 	</flow>
 </mule>
-
-4.xml conversion
-<?xml version="1.0" encoding="UTF-8"?>
-
-<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
-	xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+json conversion
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="a9f1fd56-f78b-464f-a588-766bab3ad661" >
-		<http:listener-connection host="0.0.0.0" port="8081" />
-	</http:listener-config>
-	<flow name="hellomuleFlow" doc:id="563ff97f-0a67-4229-85a6-b8694d7c2aaa" >
-		<http:listener doc:name="Listener" doc:id="530a865e-9fce-4341-b693-d0311c26c4fd" config-ref="HTTP_Listener_config" path="/Hellomule" allowedMethods="GET"/>
-		<set-payload value='"Hello World"' doc:name="Set Payload" doc:id="ab32cebd-a3e4-4876-bb92-cca4c91f0dda" />
-		<ee:transform doc:name="Transform Message" doc:id="be50e5e2-a184-4693-9608-012e5f7cae8a" >
+	<flow name="project_1-5Flow" doc:id="2f819ada-5a8d-419c-be7f-733a7a53af10" >
+		<ee:transform doc:name="Transform Message" doc:id="73a2262a-510d-4aa6-b7ea-e2fce07cb35c" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
-var myvar = "Hello World"
 ---
-myvar]]></ee:set-payload>
+payload.user map ((value, index)->"name"++ " " ++ value.lastname ++ "name:"++ " " ++ value."firstname") ]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="895d25bd-451e-4fa3-893f-fea48141581d" message='"invoked hellow World"'/>
 	</flow>
-	<flow name="user-Flow" doc:id="0c1f3329-fd61-4f6e-9a62-ad9140d30e46" >
-		<http:listener doc:name="get-user_Listener" doc:id="bf1aff63-1fd5-4740-9673-e6768bb0bdf4" config-ref="HTTP_Listener_config" path="/userName" allowedMethods="GET" />
-		<ee:transform doc:name="Transform Message" doc:id="557fa654-7037-4364-bc81-f0322ae21a6e" >
+	<flow name="project_1-5Flow1" doc:id="0b4e41d5-c2fc-4755-9fb9-988583b046e1" >
+		<ee:transform doc:name="Transform Message" doc:id="0944ee7f-bc1a-40c0-9a44-8ea9f111f196" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
+output application/json
 
 ---
-["Jone", "Anderson", "your age is 52", "Thank You!"]
- map (value, index)->  (index) :value]]></ee:set-payload>
+payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<logger level="INFO" doc:name="get-user_Logger" doc:id="567599ed-7351-4994-addc-7bf59facace3" message='"invoked hellow World"' />
 	</flow>
-	<flow name="postman-user-Flow" doc:id="99223578-00b7-41e3-b1cd-87bf4a0a3061" >
-		<http:listener doc:name="getuser_Listener" doc:id="56853b9f-d75a-4b07-b963-66ee87f21e24" config-ref="HTTP_Listener_config" path="/username" allowedMethods="GET" />
-		<ee:transform doc:name="UserTransform Message" doc:id="a9e2cc29-5764-4082-bdf2-ec7c22d95d55" >
+</mule>
+Review output:{
+  "user": [
+    {
+      "id": "693cacff-147d-4b84-add8-dad773730508",
+      "firstname": "piter",
+      "middlename": "gg",
+      "lastname": "gg",
+      "city": "jj",
+      "state": "New York",
+      "address": "gg",
+      "email": "ggh@hh.nn"
+    },
+    {
+      "id": "53634496-86ee-420b-9d36-64969e417833",
+      "firstname": "tomas",
+      "middlename": "dsfsd",
+      "lastname": "dsfsdf",
+      "city": "AA",
+      "state": "California",
+      "address": "sdsd",
+      "email": "dsdsf@gmail.com"
+    }
+  ]
+}
+xml conversion
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="project_1-5Flow" doc:id="2f819ada-5a8d-419c-be7f-733a7a53af10" >
+		<ee:transform doc:name="Transform Message" doc:id="73a2262a-510d-4aa6-b7ea-e2fce07cb35c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload.user map ((value, index)->"name"++ " " ++ value.lastname ++ "name:"++ " " ++ value."firstname") ]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="project_1-5Flow1" doc:id="0b4e41d5-c2fc-4755-9fb9-988583b046e1" >
+		<ee:transform doc:name="Transform Message" doc:id="0944ee7f-bc1a-40c0-9a44-8ea9f111f196" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/xml
 
 ---
-
-	
-         user:  {
-              "fName": "Jone",
-              "lName": "Anderson",
-              "age": 52,
-              "Address": "1504 Lock wood drive", 
-              "City": "Silver Spring",
-              "State": "MD",
-              "Zipe code": 20904,
-              "phone number": 240-492-9786,
-             
-              }]]></ee:set-payload>
+user:payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<logger level="INFO" doc:name="get-user_Logger" doc:id="12a12fa8-3eac-46bc-aca9-e1507c24b150" message='"invoked user information"' />
 	</flow>
 </mule>
-postman output: <?xml version='1.0' encoding='UTF-8'?>
+<?xml version='1.0' encoding='UTF-8'?
+review output
 <user>
-    <fName>Jone</fName>
-    <lName>Anderson</lName>
-    <age>52</age>
-    <Address>1504 Lock wood drive</Address>
-    <City>Silver Spring</City>
-    <State>MD</State>
-    <Zipe code>20904</Zipe code>
-    <phone number>-10038</phone number>
-</user> 
-
- csv conversion
-
+  <user>
+    <id>693cacff-147d-4b84-add8-dad773730508</id>
+    <firstname>piter</firstname>
+    <middlename>gg</middlename>
+    <lastname>gg</lastname>
+    <city>jj</city>
+    <state>New York</state>
+    <address>gg</address>
+    <email>ggh@hh.nn</email>
+  </user>
+  <user>
+    <id>53634496-86ee-420b-9d36-64969e417833</id>
+    <firstname>tomas</firstname>
+    <middlename>dsfsd</middlename>
+    <lastname>dsfsdf</lastname>
+    <city>AA</city>
+    <state>California</state>
+    <address>sdsd</address>
+    <email>dsdsf@gmail.com</email>
+  </user>
+</user>
+csv conversion
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
-	xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="a9f1fd56-f78b-464f-a588-766bab3ad661" >
-		<http:listener-connection host="0.0.0.0" port="8081" />
-	</http:listener-config>
-	<flow name="hellomuleFlow" doc:id="563ff97f-0a67-4229-85a6-b8694d7c2aaa" >
-		<http:listener doc:name="Listener" doc:id="530a865e-9fce-4341-b693-d0311c26c4fd" config-ref="HTTP_Listener_config" path="/Hellomule" allowedMethods="GET"/>
-		<set-payload value='"Hello World"' doc:name="Set Payload" doc:id="ab32cebd-a3e4-4876-bb92-cca4c91f0dda" />
-		<ee:transform doc:name="Transform Message" doc:id="be50e5e2-a184-4693-9608-012e5f7cae8a" >
+	<flow name="project_1-5Flow" doc:id="2f819ada-5a8d-419c-be7f-733a7a53af10" >
+		<ee:transform doc:name="Transform Message" doc:id="73a2262a-510d-4aa6-b7ea-e2fce07cb35c" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
-var myvar = "Hello World"
 ---
-myvar]]></ee:set-payload>
+payload.user map ((value, index)->"name"++ " " ++ value.lastname ++ "name:"++ " " ++ value."firstname") ]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="895d25bd-451e-4fa3-893f-fea48141581d" message='"invoked hellow World"'/>
 	</flow>
-	<flow name="user-Flow" doc:id="0c1f3329-fd61-4f6e-9a62-ad9140d30e46" >
-		<http:listener doc:name="get-user_Listener" doc:id="bf1aff63-1fd5-4740-9673-e6768bb0bdf4" config-ref="HTTP_Listener_config" path="/userName" allowedMethods="GET" />
-		<ee:transform doc:name="Transform Message" doc:id="557fa654-7037-4364-bc81-f0322ae21a6e" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
-
----
-["Jone", "Anderson", "your age is 52", "Thank You!"]
- map (value, index)->  (index) :value]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
-		<logger level="INFO" doc:name="get-user_Logger" doc:id="567599ed-7351-4994-addc-7bf59facace3" message='"invoked hellow World"' />
-	</flow>
-	<flow name="postman-user-Flow" doc:id="99223578-00b7-41e3-b1cd-87bf4a0a3061" >
-		<http:listener doc:name="getuser_Listener" doc:id="56853b9f-d75a-4b07-b963-66ee87f21e24" config-ref="HTTP_Listener_config" path="/username" allowedMethods="GET" />
-		<ee:transform doc:name="UserTransform Message" doc:id="a9e2cc29-5764-4082-bdf2-ec7c22d95d55" >
+	<flow name="project_1-5Flow1" doc:id="0b4e41d5-c2fc-4755-9fb9-988583b046e1" >
+		<ee:transform doc:name="Transform Message" doc:id="0944ee7f-bc1a-40c0-9a44-8ea9f111f196" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/csv
 
 ---
-
-	
-                 {
-              "fName": "Jone",
-              "lName": "Anderson",
-              "age": 52,
-              "Address": "1504 Lock wood drive", 
-              "City": "Silver Spring",
-              "State": "MD",
-              "Zipe code": 20904,
-              "phone number": 240-492-9786,
-             
-              }]]></ee:set-payload>
+payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<logger level="INFO" doc:name="get-user_Logger" doc:id="12a12fa8-3eac-46bc-aca9-e1507c24b150" message='"invoked user information"' />
 	</flow>
 </mule>
-postman output: fName,lName,age,Address,City,State,Zipe code,phone number
-Jone,Anderson,52,1504 Lock wood drive,Silver Spring,MD,20904,-10038
- 
- csv to Json conversion
-[
-    "fName,lName,age,Address,City,State,Zipe code,phone number\nJone,Anderson,52,1504 Lock wood drive,Silver Spring,MD,20904"
-]
+review output(it is not the right output)
+{|user: Array<{|id: String, firstname: String, middlename: String, lastname: String, city: String, state: String, address: String, email: String|}>|} {"MetadataFormat": "json", "example": "{\\\"user\\\":[{\\\"id\\\":\\\"693cacff-147d-4b84-add8-dad773730508\\\",\\\"firstname\\\":\\\"piter\\\",\\\"middlename\\\":\\\"gg\\\",\\\"lastname\\\":\\\"gg\\\",\\\"city\\\":\\\"jj\\\",\\\"state\\\":\\\"New York\\\",\\\"address\\\":\\\"gg\\\",\\\"email\\\":\\\"ggh@hh.nn\\\"},{\\\"id\\\":\\\"53634496-86ee-420b-9d36-64969e417833\\\",\\\"firstname\\\":\\\"tomas\\\",\\\"middlename\\\":\\\"dsfsd\\\",\\\"lastname
+
 
 5. Warning message
 
