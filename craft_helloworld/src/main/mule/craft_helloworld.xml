@@ -15,4 +15,21 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<set-variable value="100" doc:name="Set Variable" doc:id="e11b6e76-ba23-441f-be61-7623f5701c9c" variableName="var2" />
 		<set-payload value="#[vars.var1  ++ vars.var2]" doc:name="Set Payload" doc:id="cee2c020-c4b5-4623-8693-6dec12759e10" />
 	</flow>
+	<flow name="craft_helloworldFlow" doc:id="b812334d-426e-4990-85a9-78a95493d83d" >
+		<http:listener doc:name="Listener" doc:id="1670703c-3a6e-4e25-93c6-ed0512a9f230" config-ref="HTTP_Listener_config" path="/frew"/>
+		<ee:transform doc:name="Transform Message" doc:id="c0e4ea86-2cb5-465a-b8eb-abf629ed6932" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+var aName =attributes.queryParams.Name
+
+---
+{}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="craft_helloworldFlow1" doc:id="63877cb9-f0a6-4428-a6c4-0a94c08a2f94" >
+		<http:listener doc:name="Listener" doc:id="a8dd3c99-f646-4c01-aa86-f75cdbcf9af9" config-ref="HTTP_Listener_config" path="/exercise"/>
+		<set-payload value="hello world" doc:name="Set Payload" doc:id="abc030c8-e3f8-4b27-89c4-fec029d6638e" />
+	</flow>
 </mule>
