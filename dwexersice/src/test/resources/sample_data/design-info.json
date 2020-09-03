@@ -1,0 +1,25 @@
+{
+  "sampleData": {
+    "6b38fbd8-7197-496c-8d7b-3498b7215c5d": {
+      "payload": "sample_data/unknown_4.dwl"
+    },
+    "34ef085f-a0a6-42a6-8aac-6d1eb20d59fc": {
+      "payload": "sample_data/unknown_5.dwl"
+    },
+    "e50427c4-2268-4a78-8bae-cf27f6cb70f3": {
+      "payload": "sample_data/unknown_3.dwl"
+    },
+    "bdd1cd8c-5ce3-4e9d-b8fc-12c9be7fdbd0": {
+      "payload": "sample_data/unknown_1.dwl"
+    },
+    "fd3fa1c5-7a06-4413-aeef-b6bc351c68b4": {
+      "payload": "sample_data/unknown_2.dwl"
+    },
+    "44753947-1627-4d82-8f1e-0067475013d1": {
+      "payload": "sample_data/unknown.dwl"
+    },
+    "e8c58775-bb38-4e5f-ace0-b7fab24ae577": {
+      "payload": "sample_data/unknown_6.dwl"
+    }
+  }
+}
