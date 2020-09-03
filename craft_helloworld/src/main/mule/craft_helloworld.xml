@@ -28,8 +28,11 @@ var aName =attributes.queryParams.Name
 			</ee:message>
 		</ee:transform>
 	</flow>
+	<flow name="craft_helloworldFlow2" doc:id="0198f682-79fa-4113-ad73-f58ffcdd6fdc" >
+	</flow>
 	<flow name="craft_helloworldFlow1" doc:id="63877cb9-f0a6-4428-a6c4-0a94c08a2f94" >
 		<http:listener doc:name="Listener" doc:id="a8dd3c99-f646-4c01-aa86-f75cdbcf9af9" config-ref="HTTP_Listener_config" path="/exercise"/>
-		<set-payload value="hello world" doc:name="Set Payload" doc:id="abc030c8-e3f8-4b27-89c4-fec029d6638e" />
+		<set-variable value="hello world" doc:name="Set Variable" doc:id="122b8cf9-2d67-4c6c-9e45-20746b63e422" variableName="user"/>
+		<set-payload value="#[vars.user]" doc:name="Set Payload" doc:id="f558fcc6-bac3-4ae8-be88-873e85ae0bb0" />
 	</flow>
 </mule>
