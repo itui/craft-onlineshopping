@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="7ffe1d0a-7f54-4592-a96e-f78df120252b" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="291a7f83-4402-4ee3-a0b2-5339b19ba890" >
+		<db:my-sql-connection host="localhost" port="3306" user="root" password="Loveis121" />
+	</db:config>
+	<flow name="dwexersice-Q1" doc:id="2d77d388-25c0-4ec7-aa50-28fefb25ddc5" >
+		<http:listener doc:name="Listener" doc:id="3d336602-3216-4923-a393-b82f3f82f517" config-ref="HTTP_Listener_config" path="/DW1"/>
+		<ee:transform doc:name="Transform Message" doc:id="44753947-1627-4d82-8f1e-0067475013d1" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload.user map(value,index) ->{
+  (index):value}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="dwexersice-Q2" doc:id="ef657c37-ce2f-4c65-abf9-aaeb332a4c66" >
+		<http:listener doc:name="Listener" doc:id="73bb57bb-7a06-42d5-8bb5-fc2fc4fd1835" config-ref="HTTP_Listener_config" path="/DW2"/>
+		<ee:transform doc:name="Transform Message" doc:id="ea60d1b3-57cc-473c-8759-45ca7c640a9c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map {
+    "id": $.id,
+    "name":"ABC -> " ++ " " ++ $.itemname,
+    "code":"Q123 -> " ++ " " ++ $.itemcode,
+    "price": $.price * 2
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="dwexersice-Q3" doc:id="9a018299-1571-4401-96b6-144ee86e7f80" >
+		<http:listener doc:name="Listener" doc:id="98a0fcc2-c024-416d-becd-cc09f4d23927" config-ref="HTTP_Listener_config" path="/DW3"/>
+		<ee:transform doc:name="Transform Message" doc:id="e50427c4-2268-4a78-8bae-cf27f6cb70f3" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml inlineCloseOn="empty"
+---
+"List_of_Items": { (payload map (value,index) ->{
+	item @(id:value.id, itemname:value.itemname, itemcode:value.itemcode, price: value.price): 
+	null})}
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="dwexersice-Q4xml" doc:id="87ba73d4-c408-419b-8deb-6c5e24edddee" >
+		<http:listener doc:name="Listener" doc:id="04f0898f-b3c4-4c13-9b90-7ccf7d1041b9" config-ref="HTTP_Listener_config" path="/DW4XML"/>
+		<ee:transform doc:name="Transform Message" doc:id="bdd1cd8c-5ce3-4e9d-b8fc-12c9be7fdbd0" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/XML
+---
+Allitems:{(
+    item:payload map((value,index)->( value.id ++ ", "++ value.itemname ++ ", "++ value.itemcode ++ ", "++ value.price )))}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="dwexersiceFlow-Q4json" doc:id="8c26c693-4322-4ce5-aa4d-a7f837f4ae7f" >
+		<http:listener doc:name="Listener" doc:id="79ca49a4-dfe0-4b8e-9f24-7f4fa6f945b9" config-ref="HTTP_Listener_config" path="/DW4JSON"/>
+		<ee:transform doc:name="Transform Message" doc:id="fd3fa1c5-7a06-4413-aeef-b6bc351c68b4" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map ( $.id ++", "++  $.itemname ++", "++ $.itemcode ++", "++ $.price)]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="dwexersice-Q5" doc:id="4331c19f-b553-4ad3-9244-0669bcc63f39" >
+		<http:listener doc:name="Listener" doc:id="ee3199e8-ace3-461f-823b-067f9fe4c5d8" config-ref="HTTP_Listener_config" path="/DW5"/>
+		<ee:transform doc:name="Transform Message" doc:id="6b38fbd8-7197-496c-8d7b-3498b7215c5d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[
+%dw 2.0
+output application/json
+---
+users: payload.user map (item, index) -> 
+{user: item mapObject (value, key) -> 
+	{(upper(key)): value }
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="dwexersiceFlow-Q6" doc:id="dd4f0b7d-8830-44e2-a941-b32d30ba86b4" >
+		<http:listener doc:name="Listener" doc:id="7bb373b2-c42a-4743-a3fd-88a4de5062d4" config-ref="HTTP_Listener_config" path="/DW6"/>
+		<ee:transform doc:name="Transform Message" doc:id="34ef085f-a0a6-42a6-8aac-6d1eb20d59fc" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload.employeers.*employee.empAge]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="f9076b1d-e121-4c8f-b8d5-7170802e5953" message="end logger: #[payload]"/>
+	</flow>
+	<flow name="dwexersiceFlow-Q7" doc:id="12929ea3-7fdc-45b6-95ab-7f5c8272c219" >
+		<http:listener doc:name="Listener" doc:id="345ea503-7323-4f7b-9535-8020c70ac0f8" config-ref="HTTP_Listener_config" path="/DW7"/>
+		<ee:transform doc:name="Transform Message" doc:id="0182eb70-5155-4c0b-9de7-7e0fd8b2e1f7" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/csv headerLineNumber = 0 , header = true
+---
+payload.employers.*employee map ( employee , indexOfEmployee ) -> {
+	Name: employee.Name default "",
+	Age: employee.Age as String default "",
+	Salary: employee.Salary as String default "",
+	company: payload.employers.@company
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
