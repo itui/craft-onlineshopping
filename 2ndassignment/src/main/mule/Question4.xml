@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<sub-flow name="variables" doc:id="a5399022-6a1b-4583-8e31-6a79f03b4abb" >
+		<set-variable value="#[attributes.queryParams.num &lt; 10 as Number]" doc:name="var1" doc:id="668a4bf1-a810-48c5-89f7-eec60331d326" variableName="var1"/>
+		<set-variable value="#[attributes.queryParams.num == '1']" doc:name="var2" doc:id="3fa90b5b-5f09-45c1-83da-adcd0f8ec130" variableName="var2"/>
+		<set-variable value="#[attributes.queryParams.num == '10']" doc:name="var3" doc:id="c6cd4723-29cc-4ff8-84b4-3460c44b3bb8" variableName="var3"/>
+		<set-variable value="#[attributes.queryParams.num &gt; 10]" doc:name="var4" doc:id="6590c6ee-80fe-4d66-8d0f-649a8416e61e" variableName="var4"/>
+	</sub-flow>
+	<flow name="Question4Flow" doc:id="4a8e3f22-65e2-4c88-a9b5-48e25c3c9a6a" >
+		<http:listener doc:name="Listener" doc:id="9c4e19ca-6294-4b65-8c71-6f364a8d5dab" config-ref="HTTP_Listener_config" path="question4"/>
+		<flow-ref doc:name="variables" doc:id="de4b2908-96fd-426c-b1fe-1b9d6924ae26" name="variables"/>
+		<choice doc:name="Choice" doc:id="de980336-ce8d-443d-a243-664a34366dcb" >
+			<when expression="#[vars.var3]">
+				<set-payload value='#["num is equal to 10"]' doc:name='"num is equal to 10"' doc:id="c83f8452-5fae-4435-be19-7c712a8eb12d" />
+			</when>
+			<when expression="#[vars.var4]">
+				<set-payload value='#["num is greater than 10"]' doc:name='"num is greater than 10"' doc:id="ffb7c463-4886-4ac1-b4fe-4c23e7f6fb13" />
+			</when>
+			<when expression="#[vars.var1]">
+				<flow-ref doc:name="Flow Reference" doc:id="d9391dab-dbe4-44fe-9d9c-d703ddfa68e4" name="choice"/>
+			</when>
+		</choice>
+	</flow>
+	<flow name="choice" doc:id="b06517e8-c3c3-4a55-97bc-ca4e00a76794" >
+		<choice doc:name="Choice" doc:id="e6f67401-27c3-4f1e-b339-54f3e83acc49" >
+			<when expression="#[vars.var2]">
+				<set-payload value='#["num is 1"]' doc:name='"num is 1"' doc:id="197d637c-39ef-4d68-a760-7cb6ab79e4e3" />
+			</when>
+			<otherwise >
+				<set-payload value='#["num is less than 10"]' doc:name='"num is less than 10"' doc:id="b0b1cc66-ddd7-47a1-8988-e2c7519c366a" />
+			</otherwise>
+		</choice>
+	</flow>
+</mule>

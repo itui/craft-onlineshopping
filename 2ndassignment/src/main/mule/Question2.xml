@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="Question2Flow" doc:id="579c7d64-5d22-43ce-bf69-f9f5a17c6ce4" >
+		<http:listener doc:name="Listener" doc:id="8723aefe-0401-4daa-92f7-724fc3620156" config-ref="HTTP_Listener_config" path="question2"/>
+	</flow>
+</mule>
