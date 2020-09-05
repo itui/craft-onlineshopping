@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="3952a6c7-4c42-405f-a3d3-419804dd1296" >
+		<http:listener-connection host="0.0.0.0" port="8082" />
+	</http:listener-config>
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="8a0bc62f-f16f-4824-9d70-4c72ad129839" >
+		<db:my-sql-connection host="dev.icraftsoft.net" port="3306" user="trainee" password="shoppingCl@55" />
+	</db:config>
+	<flow name="databaseexersice-Q2Flow" doc:id="b89e102f-c38c-4c9d-a324-9ff09820631f" >
+		<http:listener doc:name="Listener" doc:id="cee1364c-a412-4ea2-8e7a-05c54f03b684" config-ref="HTTP_Listener_config" path="/choice"/>
+		<choice doc:name="Choice" doc:id="399a134f-b819-436e-9074-7dfb6fe9115f" >
+			<when expression='#[attributes.queryParams.poru == "products"]'>
+				<db:select doc:name="Products" doc:id="e9d4aabb-0ea9-4c99-ba23-55c7f6c5b796" config-ref="Database_Config">
+					<db:sql ><![CDATA[SELECT * FROM craftshopping.products]]></db:sql>
+				</db:select>
+			</when>
+			<when expression='#[attributes.queryParams.poru == "users"]'>
+				<db:select doc:name="users" doc:id="03aad28d-ddca-4e08-95c0-82447d7eb1c5" config-ref="Database_Config">
+					<db:sql ><![CDATA[SELECT * FROM craftshopping.users]]></db:sql>
+				</db:select>
+			</when>
+			<otherwise >
+				<ee:transform doc:name="Transform Message" doc:id="6efcafba-e627-4d8d-836f-169f70c07f97" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message:"nothing found"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
+		<ee:transform doc:name="Transform Message" doc:id="07be69b8-6be5-4833-816a-e444eee35a34" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+
+</mule>

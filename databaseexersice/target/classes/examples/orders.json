@@ -1,0 +1,10 @@
+{
+    "amount": 10000,
+    "orderid": 100,
+    "created": "2020-02-02T00:00:00",
+    "modified": null,
+    "discountid": 12,
+    "userid": 1000,
+    "addressid": 200,
+    "status": "shipped"
+}
