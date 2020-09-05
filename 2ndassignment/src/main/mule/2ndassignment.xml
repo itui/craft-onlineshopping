@@ -33,14 +33,10 @@ output application/json
 } filter ($.price > 5000)]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<foreach doc:name="For Each" doc:id="f0ce892c-c6ea-4c61-8f6b-eea571c3ffd6" >
-			<db:insert doc:name="Insert" doc:id="1c57a264-e65b-4a3e-8f3c-8a1093918061" config-ref="local" >
-				<db:sql ><![CDATA[insert into products(productid,categoryid,description,name,video_url,price) values
+		<db:bulk-insert doc:name="Bulk insert" doc:id="d057586a-e21b-48d6-93c2-43213f9c3555" config-ref="Database_Config1">
+			<db:sql ><![CDATA[insert into products(productid,categoryid,description,name,video_url,price) values
 (:productid,:categoryid,:description,:name,:video_url,:price);]]></db:sql>
-				<db:input-parameters ><![CDATA[#[output application/json ---payload]]]></db:input-parameters>
-			</db:insert>
-		</foreach>
-		<set-payload value='#["data is inserted"]' doc:name="Set Payload" doc:id="1286012d-7299-4707-8d66-f4f4f4690255" />
+		</db:bulk-insert>
 	</flow>
 	<flow name="2ndassignmentFlow1" doc:id="849ae4a9-d442-4ba2-a380-4056429c6ee0" >
 		<http:listener doc:name="Listener" doc:id="65aeac15-b2dc-41e8-9304-a243dfe4d129" config-ref="http" path="delete"/>
