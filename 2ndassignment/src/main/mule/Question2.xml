@@ -16,9 +16,7 @@ http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/fil
 	<db:config name="local" doc:name="Database Config" doc:id="30afb2f7-936c-4da2-881e-c70790ddd9de" >
 		<db:my-sql-connection host="localhost" port="3306" user="root" password="root" database="products" />
 	</db:config>
-	<file:config name="text" doc:name="File Config" doc:id="af8094fb-a390-4f8e-b836-c52da412395d" >
-		<file:connection workingDir="C:\file" />
-	</file:config>
+	
 	<sub-flow name="products" doc:id="495c9616-b760-428b-a0fd-774537f2e83a" >
 		<db:select doc:name="Select" doc:id="e9ac8da9-fe04-4fc3-91e4-0a50513b696b" config-ref="icraft">
 			<db:sql><![CDATA[select * from products]]></db:sql>
