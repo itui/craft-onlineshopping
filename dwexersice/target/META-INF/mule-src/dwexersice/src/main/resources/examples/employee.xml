@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<employees>
+   <employee>
+      <Name>Abebe</Name>
+      <Age>23</Age>
+      <Salary>5000</Salary>
+      <Company>craftsoftware</Company>
+   </employee>
+   <employee>
+      <Name>Kebede</Name>
+      <Age>55</Age>
+      <Salary>8000</Salary>
+      <Company>craftsoftware</Company>
+   </employee>
+</employees>
