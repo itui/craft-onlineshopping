@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="7baf9f9d-3b51-4d4e-981f-0f8f6b27c76c" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<db:config name="Remote" doc:name="Database Config" doc:id="9802e1c5-8aff-4a8e-b01c-020b047068e9" >
+		<db:my-sql-connection host="dev.icraftsoft.net" port="3306" user="trainee" password="shoppingCl@55" database="craftshopping" />
+	</db:config>
+	<db:config name="Local" doc:name="Database Config" doc:id="7b5db3ac-9528-47c9-a3fe-047e4194e747" >
+		<db:my-sql-connection host="localhost" port="3306" user="root" password="mySQLpa8899" database="craftshopping" />
+	</db:config>
+	<file:config name="File_Config" doc:name="File Config" doc:id="1b20db89-dede-42ad-99da-7876239a36ef" >
+		<file:connection workingDir="/Users/mezmurzedawit/Desktop" />
+	</file:config>
+	<flow name="remotedb-to-localdbFlow" doc:id="c71d4389-a7c5-4084-ae6d-56acb10a3fb7" >
+		<http:listener doc:name="Listener" doc:id="a709f6a3-85fb-4041-a4ac-03091367af5c" path="/fetch" config-ref="HTTP_Listener_config"/>
+		<db:select doc:name="Select" doc:id="a65f44f3-ed77-47dd-bca6-255da771d58b" config-ref="Remote">
+			<db:sql ><![CDATA[select * from products]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="b0a68f05-3cce-4158-aa17-ac263c48f0f1" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload filter ($.price > 5000)]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<db:bulk-insert doc:name="Bulk insert" doc:id="2169de9e-17c0-4d18-a2a6-8ff57ec8b670" config-ref="Local">
+			<db:sql ><![CDATA[insert into products (productid, categoryid, name, description, video_url, price)
+values (:productid, :categoryid, :name, :description, :video_url, :price);]]></db:sql>
+		</db:bulk-insert>
+		<set-payload value="#[payload]" doc:name="Set Payload" doc:id="b3ac879e-61ac-4943-a1a9-355f8a9d383c" />
+	</flow>
+	<flow name="products-users-choice" doc:id="b82f941a-2a46-494a-8995-3576cdc5ef69" >
+		<http:listener doc:name="Listener" doc:id="90cc4878-4a5a-4bc9-b285-cd9fdd2ec1b7" config-ref="HTTP_Listener_config" path="/choiceProductsorUsers"/>
+		<choice doc:name="Choice" doc:id="2eba5bb7-45b9-4ddd-bcf4-4a6f67ac1b19" >
+			<when expression='#[attributes.queryParams.item == "Products"]'>
+				<db:select doc:name="Select" doc:id="40b40ca0-7736-4913-a901-ea31ee36dc69" config-ref="Remote">
+					<db:sql ><![CDATA[select * from products;]]></db:sql>
+				</db:select>
+			</when>
+			<when expression='#[attributes.queryParams.item == "Users"]'>
+				<db:select doc:name="Select" doc:id="4a5526ff-77d5-4062-bd28-ab4b45c4cc30" config-ref="Remote">
+					<db:sql ><![CDATA[select * from users;]]></db:sql>
+				</db:select>
+			</when>
+			<otherwise>
+				<set-payload value="data not found" doc:name="Set Payload" doc:id="bf9ad3b5-7b53-424a-a399-c04034efdb4a" />
+			</otherwise>
+		</choice>
+		<ee:transform doc:name="Transform Message" doc:id="64d0dc21-a62a-45ea-916b-26fbdc4fcbd5" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="groupdataLessThan" doc:id="de741297-6bbe-4240-b7c6-09af48bee048" >
+		<http:listener doc:name="Listener" doc:id="b06ca084-eb0d-4bae-9a55-285844b39e6e" config-ref="HTTP_Listener_config" path="/groupLessThan"/>
+		<db:select doc:name="Select" doc:id="c1656866-ebe0-45b0-b279-e9378c9d2b10" config-ref="Remote">
+			<db:sql ><![CDATA[select * from orders where amount < 5000;]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="579552f9-0f4f-42d5-9c91-1404c7235b9b" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<file:write doc:name="Write" doc:id="695daaab-3659-4d46-bc58-f173fc5651fc" config-ref="File_Config" path="/Users/mezmurzedawit/Desktop/ordersLessThan5000.txt" mode="APPEND"/>
+		<set-payload value="#[payload]" doc:name="Set Payload" doc:id="5efbd5e3-5cdb-4c73-8b74-36a5bb26e83f" />
+	</flow>
+	<flow name="groupDataGreaterThan" doc:id="98dbf8f2-cf5d-4fb4-8b87-586e0f9ebbc1" >
+		<http:listener doc:name="Listener" doc:id="3a89d255-538d-4bee-941d-06cc3d7a55b7" config-ref="HTTP_Listener_config" path="/groupGreaterThan"/>
+		<db:select doc:name="Select" doc:id="c2899062-54c6-4234-9d90-42a8c5481754" config-ref="Remote">
+			<db:sql ><![CDATA[select * from orders where amount > 5000;]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="5821ece0-08fd-425e-8bdf-39f97646bb97" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<file:write doc:name="Write" doc:id="731c64f7-d7b9-47f0-a443-62dfcfab2eda" path="/Users/mezmurzedawit/Desktop/ordersLessThan5000.txt" mode="APPEND"/>
+		<set-payload value="#[payload]" doc:name="Set Payload" doc:id="e1c36ed8-bf44-4cd8-83eb-7ec03160ddae" />
+	</flow>
+	<flow name="choicwFlow" doc:id="89075802-c5b4-4316-ae7c-a3aa905993f4" >
+		<http:listener doc:name="Listener" doc:id="0b8f17bc-540e-4933-92ee-87ac27e35e90" config-ref="HTTP_Listener_config" path="/choice"/>
+		<choice doc:name="Choice" doc:id="eb13e61a-0443-41cd-8f07-5a532ac321b7" >
+			<when expression="#[attributes.queryParams.num &lt; 10]">
+				<ee:transform doc:name="Transform Message" doc:id="b069e091-334c-4bcb-bb99-375b4574505c" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: "Number is less than 10"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<choice doc:name="Choice" doc:id="091517c1-0fb2-4df2-a666-49e1b1482333" >
+					<when expression="#[attributes.queryParams.num == '1']">
+						<ee:transform doc:name="Transform Message" doc:id="98f9679d-831b-4367-a24d-1649a24cfa74" >
+							<ee:message >
+								<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: "Number is equal to 1"
+}]]></ee:set-payload>
+							</ee:message>
+						</ee:transform>
+					</when>
+					<otherwise >
+						<ee:transform doc:name="Transform Message" doc:id="823b8011-9f9c-4296-8963-d0d73b183c70" >
+							<ee:message >
+								<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: "Number is less than 10"
+}]]></ee:set-payload>
+							</ee:message>
+						</ee:transform>
+					</otherwise>
+				</choice>
+			</when>
+			<when expression="#[attributes.queryParams.num == '10']">
+				<ee:transform doc:name="Transform Message" doc:id="02ae9c43-9e91-4d76-a792-4e098c315015" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: "Number is equal to 10"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+			<when expression="#[attributes.queryParams.num &gt; 10]">
+				<ee:transform doc:name="Transform Message" doc:id="aaf2f93e-08a7-4a66-888f-49ebb9d719f9" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: "Number is greater than 10"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+		</choice>
+	</flow>
+</mule>
