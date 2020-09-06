@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="ordersjsonMetaData" format="json">
+      <types:shape format="weave" example="examples/orders.json"><![CDATA[%dw 2.0
+
+type ordersjsonMetaData = {|
+  amount: Number {"typeId": "int"}, 
+  orderid: Number {"typeId": "int"}, 
+  created: String, 
+  modified: Null, 
+  discountid: Number {"typeId": "int"}, 
+  userid: Number {"typeId": "int"}, 
+  addressid: Number {"typeId": "int"}, 
+  status: String
+|} {"example": "{\\\"amount\\\":10000,\\\"orderid\\\":100,\\\"created\\\":\\\"2020-02-02T00:00:00\\\",\\\"modified\\\":null,\\\"discountid\\\":12,\\\"userid\\\":1000,\\\"addressid\\\":200,\\\"status\\\":\\\"shipped\\\"}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+</types:mule>
