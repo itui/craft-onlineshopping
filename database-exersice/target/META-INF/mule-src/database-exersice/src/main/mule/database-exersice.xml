@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="c16c21f1-c3c6-419d-856f-d7393d612367" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="8fd46af2-1448-4083-8c61-4287511d1b8b" >
+		<db:my-sql-connection host="dev.icraftsoft.net" port="3306" user="trainee" password="shoppingCl@55" />
+	</db:config>
+	<db:config name="Database_Config1" doc:name="Database Config" doc:id="bf4646c3-027f-4762-9fe1-22f28814131f" >
+		<db:my-sql-connection host="localhost" port="3306" user="root" password="Loveis121" />
+	</db:config>
+	<flow name="database-exersiceFlow1" doc:id="3ed04d19-c547-47bf-861b-12f8d1f3a4c9" >
+		<http:listener doc:name="Listener" doc:id="32e6e65b-e1b8-4ce3-b923-521e8830711e" config-ref="HTTP_Listener_config" path="/insert"/>
+		<db:select doc:name="Select" doc:id="63f87787-7dc7-44a8-bce1-b11d9189617b" config-ref="Database_Config">
+			<db:sql ><![CDATA[select * from craftshopping.products
+]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="f6e1de75-6831-457f-8b08-1343f43bb1d6" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload filter($.price > 5000) map(item,index)->{
+	key:item
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="b2c06501-d2c7-43b2-9c04-b01665549378" message="show:#[payload]"/>
+		<db:bulk-insert doc:name="Bulk insert" doc:id="30f4a0a1-ba97-4e89-87c1-147f45ebc534" config-ref="Database_Config1">
+			<db:sql ><![CDATA[insert into craftshopping.products (productid,categoryid,name,description,video_url,price) 
+							values (:productid,:categoryid,:name,:description,:video_url,:price)]]></db:sql>
+		</db:bulk-insert>
+		<ee:transform doc:name="Transform Message" doc:id="d4717a44-72a8-4b40-aef9-63e53546658e" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message:"All data is inserted to the local server"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="database-exersiceFlow" doc:id="ca199876-bc28-4fd3-8dcb-3767f4abd6b9" >
+		<http:listener doc:name="Listener" doc:id="e4a158ee-21b1-41fa-8ccb-cc860935fd33" config-ref="HTTP_Listener_config" path="/choice"/>
+		<choice doc:name="Choice" doc:id="a999b260-ca26-419d-b5a1-1d08e706f15f" >
+			<when expression="#[attributes.queryParams.num &lt; 10]">
+				<choice doc:name="Choice" doc:id="a09d3ce2-97f9-4829-a2a3-140ecd42f015" >
+					<when expression='#[attributes.queryParams.num == "1"]'>
+						<set-payload value="num is equal to 1" doc:name="Set Payload" doc:id="a6de39c4-a640-40b3-b02c-2ef2a8839df3" />
+					</when>
+					<otherwise >
+						<set-payload value="num is less than 10" doc:name="Set Payload" doc:id="91bf0199-9420-42eb-85b3-f7cf4a6ff006" />
+					</otherwise>
+				</choice>
+			</when>
+			<when expression='#[attributes.queryParams.num == "10"]'>
+				<set-payload value="num is equal to 10" doc:name="Set Payload" doc:id="bdce03d2-8223-4165-b5f8-4736f8be0065" />
+			</when>
+			<otherwise >
+				<set-payload value="num is greater than 10" doc:name="Set Payload" doc:id="9c96f6d0-96be-4b1d-9ffc-a82752688c90" />
+			</otherwise>
+		</choice>
+	</flow>
+	<flow name="database-exersiceFlow2" doc:id="e38da614-6d21-4919-9032-bc59bc9ed7cd" >
+		<http:listener doc:name="Listener" doc:id="bf7f1545-582a-4551-a666-b5adac21e941" config-ref="HTTP_Listener_config" path="/write"/>
+		<scatter-gather doc:name="Scatter-Gather" doc:id="6ea80070-acfe-4bf6-aa6b-2117b506d733" >
+			<route >
+				<db:select doc:name="amount &gt; 5000" doc:id="f45fffcb-23ce-42d1-8181-4cc317805b03" config-ref="Database_Config">
+					<db:sql ><![CDATA[select * from craftshopping.orders
+where amount !=" " AND amount > 5000]]></db:sql>
+				</db:select>
+				<ee:transform doc:name="Transform Message" doc:id="faac87e1-8ca3-43bb-8b87-d4f3526c3a0a" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload groupBy((item)->(item.status))]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</route>
+			<route >
+				<db:select doc:name="amount &lt; 5000" doc:id="0f6326b0-fd3f-4bc1-8946-e2265cbf65a4" config-ref="Database_Config">
+					<db:sql ><![CDATA[select * from craftshopping.orders
+where amount !=" " AND amount < 5000]]></db:sql>
+				</db:select>
+				<ee:transform doc:name="Transform Message" doc:id="be61e973-43a1-447a-9c2b-3c625f815857" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload groupBy((item)->(item.status))]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</route>
+		</scatter-gather>
+		<ee:transform doc:name="Transform Message" doc:id="6c415718-6f82-41f4-a867-e5896168f8ec">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/xml
+---
+ordersfinal:{
+	(payload..payload) 
+	
+	}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+		<file:write doc:name="Write" doc:id="72fd50a4-bb79-48f5-8021-1a30451ca9fd" path="C:\Users\yoweg\Documents\Database Exersice\Orders.txt" mode="APPEND"/>
+	</flow>
+</mule>
