@@ -1,0 +1,84 @@
+#%RAML 1.0
+baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/20b1d7a1-0fe6-4693-ab39-74a794a4c9ae/ # 
+title: Mulesoft_Addis_assignment
+version: 1.0
+/employee:
+  description: this is the employee resource
+  get:
+    description: this is the employee resource get method resources
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              {
+              "Message" :" refer database"
+              }
+      404:
+        body:
+          application/json:
+            example:
+              {
+                "Message" : "Data not found"
+              }
+  post:
+    description: this is the employee post responce metho resource
+    responses:
+      201:
+        body:
+          application/json:
+            example:
+              {
+                "Message":"Resource succesfully posted"
+              }
+      404:
+        body:
+          application/json:
+            example:
+              {
+                "Message":"The source data not found"
+              }
+  /{empid}:
+    put:
+      description: this is the update update resources
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                {
+                   "Message":"Refer the updated data from the database"
+                }
+        404:
+          body:
+            application/json:
+              example:
+                {
+                  "Message":" The update data is not found"
+                }
+    delete:
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                {
+                  "Message":"Data deleted succesfully"
+                }
+        404:
+          body:
+            application/json:
+              example:
+                {"Message":"No data to delete"
+                }
+      
+
+
+
+
+
+
+
+
+    
+          
