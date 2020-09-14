@@ -1,0 +1,81 @@
+#%RAML 1.0
+baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/0f53e7f9-d263-452b-8056-584118dbbc71/ # 
+title: employees
+version: 1.0
+/employees:
+  description: gets all employees
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              {
+                "message": "ok"
+              }
+      404:
+        body:
+          application/json:
+            example:
+              {
+                "message": "Not Found"
+              }        
+  post:
+    description: creates new employee info
+    responses:
+      201:
+        body:
+          application/json:
+            example:
+              {
+                "message": "Created"
+              }
+      404:
+        body:
+          application/json:
+            example:
+              {
+                "message": "Not Found"
+              }          
+
+  /{id}:
+    description: updates and delets a single employee
+    put:
+      description: updates emploee info
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Updated"
+                }
+        404:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Not Found"
+                }          
+              
+    delete:
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                {
+                    "message": "item deleted"
+                }
+        404:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Not Found"
+                }    
+            
+    
+
+                
+  
