@@ -1,0 +1,119 @@
+#%RAML 1.0
+baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/888621ee-828e-470d-8aa0-1cf354f6caf6/ # 
+title: employee
+description:  this Api will fetch the information from database
+version:  v1
+uses:
+  sales: library.raml
+protocols:
+  - HTTP
+  - HTTPS
+/employee:
+    get:
+     responses:
+       200:
+         body:
+           application/json:
+             example:
+                    [{ 
+  "Emp_id" : 1,
+  "First_name" : "amir",
+  "Last_name" : "mohammed",
+  "Age" : 24,
+  "Gender" : "Male",
+  "Salary" : 4500
+  
+}]
+            
+          
+    
+     
+      
+       
+      
+       
+      
+/{Emp_id}:
+    get:
+      responses:
+        200:
+      body:
+        application/json:
+          type: sales.employee
+          example:
+             { 
+  "Emp_id" : 1,
+  "First_name" : "amir",
+  "Last_name" : "mohammed",
+  "Age" : 24,
+  "Gender" : "Male",
+  "Salary" : 4500
+  
+}
+    put:
+      body:
+        application/json:
+          type: sales.employee
+          example:
+             { 
+  "Emp_id" : 1,
+  "First_name" : "amir",
+  "Last_name" : "mohammed",
+  "Age" : 24,
+  "Gender" : "Male",
+  "Salary" : 4500
+  
+}
+      responses:
+        201:
+          body:
+            application/json:
+              example:
+                {
+                message : updated succesfully
+              }   
+    delete:
+      body:
+        application/json:
+          type: sales.employee
+          example:
+             { 
+  "Emp_id" : 1
+  
+}      
+      responses:
+        201:
+          body:
+            application/json:
+              example:
+                {
+                message : deleted succesfully
+              }   
+               
+
+              
+
+/CreateEmployee:          
+  post:
+    body:
+      application/json:
+        type: sales.employee
+        example:
+         { 
+  "Emp_id" : 1,
+  "First_name" : "amir",
+  "Last_name" : "mohammed",
+  "Age" : 24,
+  "Gender" : "Male",
+  "Salary" : 4500
+  
+}
+    responses:
+      201:
+        body:
+          application/json:
+            example:
+              {
+                message : "created succesfully"
+              }      
+  

@@ -1,0 +1,32 @@
+#%RAML 1.0 Library
+types:
+  employees:
+    type: array
+    items: employee
+  employee:
+    type: object
+    properties:
+      Emp_id:
+        type: integer
+        required:  false
+      First_name:
+        type: string
+        required:  false 
+      Last_name:
+        type: string
+        required:  false
+      Age: 
+        type: integer
+        required:  false
+      Gender:
+        type: string
+        required:  false
+        enum:
+          - Male
+          - Female
+      Salary:
+        type: integer
+        required:  false
+     
+       
+      
