@@ -35,4 +35,7 @@ var aName =attributes.queryParams.Name
 		<set-variable value="hello world" doc:name="Set Variable" doc:id="122b8cf9-2d67-4c6c-9e45-20746b63e422" variableName="user"/>
 		<set-payload value="#[vars.user]" doc:name="Set Payload" doc:id="f558fcc6-bac3-4ae8-be88-873e85ae0bb0" />
 	</flow>
+	<flow name="craft_helloworldFlow3" doc:id="341ead15-5c2c-4868-a922-8d2592093f66" >
+		<http:listener doc:name="Listener" doc:id="9fc2c779-4c77-4469-a566-0d5e1ca027db" config-ref="HTTP_Listener_config" path="/exercise2"/>
+	</flow>
 </mule>

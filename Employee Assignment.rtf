@@ -1,0 +1,430 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2513
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fswiss\fcharset0 Helvetica-Oblique;}
+{\colortbl;\red255\green255\blue255;\red0\green128\blue128;\red63\green127\blue127;\red127\green0\blue127;
+\red42\green0\blue255;\red128\green0\blue128;}
+{\*\expandedcolortbl;;\csgenericrgb\c0\c50196\c50196;\csgenericrgb\c24706\c49804\c49804;\csgenericrgb\c49804\c0\c49804;
+\csgenericrgb\c16471\c0\c100000;\csgenericrgb\c50196\c0\c50196;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs24 \cf2 <?\cf3 xml\cf0  \cf4 version\cf0 =
+\f1\i \cf5 "1.0"
+\f0\i0 \cf0  \cf4 encoding\cf0 =
+\f1\i \cf5 "UTF-8"
+\f0\i0 \cf2 ?>\cf0 \
+\cf2 <\cf3 mule\cf0  \cf4 xmlns:ee\cf0 =
+\f1\i \cf5 "http://www.mulesoft.org/schema/mule/ee/core"
+\f0\i0 \cf0  \cf4 xmlns:doc\cf0 =
+\f1\i \cf5 "http://www.mulesoft.org/schema/mule/documentation"
+\f0\i0 \cf0  \cf4 xmlns:db\cf0 =
+\f1\i \cf5 "http://www.mulesoft.org/schema/mule/db"
+\f0\i0 \cf0  \cf4 xmlns\cf0 =
+\f1\i \cf5 "http://www.mulesoft.org/schema/mule/core"
+\f0\i0 \cf0  \cf4 xmlns:apikit\cf0 =
+\f1\i \cf5 "http://www.mulesoft.org/schema/mule/mule-apikit"
+\f0\i0 \cf0  \cf4 xmlns:http\cf0 =
+\f1\i \cf5 "http://www.mulesoft.org/schema/mule/http"
+\f0\i0 \cf0  \cf4 xmlns:xsi\cf0 =
+\f1\i \cf5 "http://www.w3.org/2001/XMLSchema-instance"
+\f0\i0 \cf0  \cf4 xsi:schemaLocation\cf0 =
+\f1\i \cf5 "http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+\f0\i0 \cf0 \
+\pard\pardeftab720\partightenfactor0
+
+\f1\i \cf5 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+\f0\i0 \cf0 \
+
+\f1\i \cf5 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd"
+\f0\i0 \cf2 >\cf0 \
+    \cf2 <\cf3 http:listener-config\cf0  \cf4 name\cf0 =
+\f1\i \cf5 "employee-httpListenerConfig"
+\f0\i0 \cf2 >\cf0 \
+        \cf2 <\cf3 http:listener-connection\cf0  \cf4 host\cf0 =
+\f1\i \cf5 "0.0.0.0"
+\f0\i0 \cf0  \cf4 port\cf0 =
+\f1\i \cf5 "8081"
+\f0\i0 \cf0  \cf2 />\cf0 \
+    \cf2 </\cf3 http:listener-config\cf2 >\cf0 \
+    \cf2 <\cf3 apikit:config\cf0  \cf4 name\cf0 =
+\f1\i \cf5 "employee-config"
+\f0\i0 \cf0  \cf4 api\cf0 =
+\f1\i \cf5 "employee-raml/employee.raml"
+\f0\i0 \cf0  \cf4 outboundHeadersMapName\cf0 =
+\f1\i \cf5 "outboundHeaders"
+\f0\i0 \cf0  \cf4 httpStatusVarName\cf0 =
+\f1\i \cf5 "httpStatus"
+\f0\i0 \cf0  \cf2 />\cf0 \
+	\cf2 <\cf3 db:config\cf0  \cf4 name\cf0 =
+\f1\i \cf5 "Database_Config"
+\f0\i0 \cf0  \cf4 doc:name\cf0 =
+\f1\i \cf5 "Database Config"
+\f0\i0 \cf0  \cf4 doc:id\cf0 =
+\f1\i \cf5 "222bf57f-5f84-4913-b604-74486ceb6ae2"
+\f0\i0 \cf0  \cf2 >\cf0 \
+		\cf2 <\cf3 db:my-sql-connection\cf0  \cf4 host\cf0 =
+\f1\i \cf5 "localhost"
+\f0\i0 \cf0  \cf4 port\cf0 =
+\f1\i \cf5 "3306"
+\f0\i0 \cf0  \cf4 user\cf0 =
+\f1\i \cf5 "root"
+\f0\i0 \cf0  \cf4 password\cf0 =
+\f1\i \cf5 "RUth157927"
+\f0\i0 \cf0  \cf4 database\cf0 =
+\f1\i \cf5 "employee"
+\f0\i0 \cf0  \cf2 />\cf0 \
+	\cf2 </\cf3 db:config\cf2 >\cf0 \
+	\cf2 <\cf3 flow\cf0  \cf4 name\cf0 =
+\f1\i \cf5 "employee-main"
+\f0\i0 \cf2 >\cf0 \
+        \cf2 <\cf3 http:listener\cf0  \cf4 config-ref\cf0 =
+\f1\i \cf5 "employee-httpListenerConfig"
+\f0\i0 \cf0  \cf4 path\cf0 =
+\f1\i \cf5 "/api/*"
+\f0\i0 \cf2 >\cf0 \
+            \cf2 <\cf3 http:response\cf0  \cf4 statusCode\cf0 =
+\f1\i \cf5 "#[vars\cf6 .\cf5 httpStatus default 200]"
+\f0\i0 \cf2 >\cf0 \
+                \cf2 <\cf3 http:headers\cf2 >\cf0 #[vars\cf6 .\cf0 outboundHeaders default \{\}]\cf2 </\cf3 http:headers\cf2 >\cf0 \
+            \cf2 </\cf3 http:response\cf2 >\cf0 \
+            \cf2 <\cf3 http:error-response\cf0  \cf4 statusCode\cf0 =
+\f1\i \cf5 "#[vars\cf6 .\cf5 httpStatus default 500]"
+\f0\i0 \cf2 >\cf0 \
+                \cf2 <\cf3 http:body\cf2 >\cf0 #[payload]\cf2 </\cf3 http:body\cf2 >\cf0 \
+                \cf2 <\cf3 http:headers\cf2 >\cf0 #[vars\cf6 .\cf0 outboundHeaders default \{\}]\cf2 </\cf3 http:headers\cf2 >\cf0 \
+            \cf2 </\cf3 http:error-response\cf2 >\cf0 \
+        \cf2 </\cf3 http:listener\cf2 >\cf0 \
+        \cf2 <\cf3 apikit:router\cf0  \cf4 config-ref\cf0 =
+\f1\i \cf5 "employee-config"
+\f0\i0 \cf0  \cf2 />\cf0 \
+        \cf2 <\cf3 error-handler\cf2 >\cf0 \
+            \cf2 <\cf3 on-error-propagate\cf0  \cf4 type\cf0 =
+\f1\i \cf5 "APIKIT:BAD_REQUEST"
+\f0\i0 \cf2 >\cf0 \
+                \cf2 <\cf3 ee:transform\cf0  \cf4 xmlns:ee\cf0 =
+\f1\i \cf5 "http://www.mulesoft.org/schema/mule/ee/core"
+\f0\i0 \cf0  \cf4 xsi:schemaLocation\cf0 =
+\f1\i \cf5 "http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd"
+\f0\i0 \cf2 >\cf0 \
+                    \cf2 <\cf3 ee:message\cf2 >\cf0 \
+                        \cf2 <\cf3 ee:set-payload\cf2 ><![CDATA[\cf0 %dw 2.0\
+output application/json\
+---\
+\{message: "Bad request"\}\cf2 ]]></\cf3 ee:set-payload\cf2 >\cf0 \
+                    \cf2 </\cf3 ee:message\cf2 >\cf0 \
+                    \cf2 <\cf3 ee:variables\cf2 >\cf0 \
+                        \cf2 <\cf3 ee:set-variable\cf0  \cf4 variableName\cf0 =
+\f1\i \cf5 "httpStatus"
+\f0\i0 \cf2 >\cf0 400\cf2 </\cf3 ee:set-variable\cf2 >\cf0 \
+                    \cf2 </\cf3 ee:variables\cf2 >\cf0 \
+                \cf2 </\cf3 ee:transform\cf2 >\cf0 \
+            \cf2 </\cf3 on-error-propagate\cf2 >\cf0 \
+            \cf2 <\cf3 on-error-propagate\cf0  \cf4 type\cf0 =
+\f1\i \cf5 "APIKIT:NOT_FOUND"
+\f0\i0 \cf2 >\cf0 \
+                \cf2 <\cf3 ee:transform\cf0  \cf4 xmlns:ee\cf0 =
+\f1\i \cf5 "http://www.mulesoft.org/schema/mule/ee/core"
+\f0\i0 \cf0  \cf4 xsi:schemaLocation\cf0 =
+\f1\i \cf5 "http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd"
+\f0\i0 \cf2 >\cf0 \
+                    \cf2 <\cf3 ee:message\cf2 >\cf0 \
+                        \cf2 <\cf3 ee:set-payload\cf2 ><![CDATA[\cf0 %dw 2.0\
+output application/json\
+---\
+\{message: "Resource not found"\}\cf2 ]]></\cf3 ee:set-payload\cf2 >\cf0 \
+                    \cf2 </\cf3 ee:message\cf2 >\cf0 \
+                    \cf2 <\cf3 ee:variables\cf2 >\cf0 \
+                        \cf2 <\cf3 ee:set-variable\cf0  \cf4 variableName\cf0 =
+\f1\i \cf5 "httpStatus"
+\f0\i0 \cf2 >\cf0 404\cf2 </\cf3 ee:set-variable\cf2 >\cf0 \
+                    \cf2 </\cf3 ee:variables\cf2 >\cf0 \
+                \cf2 </\cf3 ee:transform\cf2 >\cf0 \
+            \cf2 </\cf3 on-error-propagate\cf2 >\cf0 \
+            \cf2 <\cf3 on-error-propagate\cf0  \cf4 type\cf0 =
+\f1\i \cf5 "APIKIT:METHOD_NOT_ALLOWED"
+\f0\i0 \cf2 >\cf0 \
+                \cf2 <\cf3 ee:transform\cf0  \cf4 xmlns:ee\cf0 =
+\f1\i \cf5 "http://www.mulesoft.org/schema/mule/ee/core"
+\f0\i0 \cf0  \cf4 xsi:schemaLocation\cf0 =
+\f1\i \cf5 "http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd"
+\f0\i0 \cf2 >\cf0 \
+                    \cf2 <\cf3 ee:message\cf2 >\cf0 \
+                        \cf2 <\cf3 ee:set-payload\cf2 ><![CDATA[\cf0 %dw 2.0\
+output application/json\
+---\
+\{message: "Method not allowed"\}\cf2 ]]></\cf3 ee:set-payload\cf2 >\cf0 \
+                    \cf2 </\cf3 ee:message\cf2 >\cf0 \
+                    \cf2 <\cf3 ee:variables\cf2 >\cf0 \
+                        \cf2 <\cf3 ee:set-variable\cf0  \cf4 variableName\cf0 =
+\f1\i \cf5 "httpStatus"
+\f0\i0 \cf2 >\cf0 405\cf2 </\cf3 ee:set-variable\cf2 >\cf0 \
+                    \cf2 </\cf3 ee:variables\cf2 >\cf0 \
+                \cf2 </\cf3 ee:transform\cf2 >\cf0 \
+            \cf2 </\cf3 on-error-propagate\cf2 >\cf0 \
+            \cf2 <\cf3 on-error-propagate\cf0  \cf4 type\cf0 =
+\f1\i \cf5 "APIKIT:NOT_ACCEPTABLE"
+\f0\i0 \cf2 >\cf0 \
+                \cf2 <\cf3 ee:transform\cf0  \cf4 xmlns:ee\cf0 =
+\f1\i \cf5 "http://www.mulesoft.org/schema/mule/ee/core"
+\f0\i0 \cf0  \cf4 xsi:schemaLocation\cf0 =
+\f1\i \cf5 "http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd"
+\f0\i0 \cf2 >\cf0 \
+                    \cf2 <\cf3 ee:message\cf2 >\cf0 \
+                        \cf2 <\cf3 ee:set-payload\cf2 ><![CDATA[\cf0 %dw 2.0\
+output application/json\
+---\
+\{message: "Not acceptable"\}\cf2 ]]></\cf3 ee:set-payload\cf2 >\cf0 \
+                    \cf2 </\cf3 ee:message\cf2 >\cf0 \
+                    \cf2 <\cf3 ee:variables\cf2 >\cf0 \
+                        \cf2 <\cf3 ee:set-variable\cf0  \cf4 variableName\cf0 =
+\f1\i \cf5 "httpStatus"
+\f0\i0 \cf2 >\cf0 406\cf2 </\cf3 ee:set-variable\cf2 >\cf0 \
+                    \cf2 </\cf3 ee:variables\cf2 >\cf0 \
+                \cf2 </\cf3 ee:transform\cf2 >\cf0 \
+            \cf2 </\cf3 on-error-propagate\cf2 >\cf0 \
+            \cf2 <\cf3 on-error-propagate\cf0  \cf4 type\cf0 =
+\f1\i \cf5 "APIKIT:UNSUPPORTED_MEDIA_TYPE"
+\f0\i0 \cf2 >\cf0 \
+                \cf2 <\cf3 ee:transform\cf0  \cf4 xmlns:ee\cf0 =
+\f1\i \cf5 "http://www.mulesoft.org/schema/mule/ee/core"
+\f0\i0 \cf0  \cf4 xsi:schemaLocation\cf0 =
+\f1\i \cf5 "http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd"
+\f0\i0 \cf2 >\cf0 \
+                    \cf2 <\cf3 ee:message\cf2 >\cf0 \
+                        \cf2 <\cf3 ee:set-payload\cf2 ><![CDATA[\cf0 %dw 2.0\
+output application/json\
+---\
+\{message: "Unsupported media type"\}\cf2 ]]></\cf3 ee:set-payload\cf2 >\cf0 \
+                    \cf2 </\cf3 ee:message\cf2 >\cf0 \
+                    \cf2 <\cf3 ee:variables\cf2 >\cf0 \
+                        \cf2 <\cf3 ee:set-variable\cf0  \cf4 variableName\cf0 =
+\f1\i \cf5 "httpStatus"
+\f0\i0 \cf2 >\cf0 415\cf2 </\cf3 ee:set-variable\cf2 >\cf0 \
+                    \cf2 </\cf3 ee:variables\cf2 >\cf0 \
+                \cf2 </\cf3 ee:transform\cf2 >\cf0 \
+            \cf2 </\cf3 on-error-propagate\cf2 >\cf0 \
+            \cf2 <\cf3 on-error-propagate\cf0  \cf4 type\cf0 =
+\f1\i \cf5 "APIKIT:NOT_IMPLEMENTED"
+\f0\i0 \cf2 >\cf0 \
+                \cf2 <\cf3 ee:transform\cf0  \cf4 xmlns:ee\cf0 =
+\f1\i \cf5 "http://www.mulesoft.org/schema/mule/ee/core"
+\f0\i0 \cf0  \cf4 xsi:schemaLocation\cf0 =
+\f1\i \cf5 "http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd"
+\f0\i0 \cf2 >\cf0 \
+                    \cf2 <\cf3 ee:message\cf2 >\cf0 \
+                        \cf2 <\cf3 ee:set-payload\cf2 ><![CDATA[\cf0 %dw 2.0\
+output application/json\
+---\
+\{message: "Not Implemented"\}\cf2 ]]></\cf3 ee:set-payload\cf2 >\cf0 \
+                    \cf2 </\cf3 ee:message\cf2 >\cf0 \
+                    \cf2 <\cf3 ee:variables\cf2 >\cf0 \
+                        \cf2 <\cf3 ee:set-variable\cf0  \cf4 variableName\cf0 =
+\f1\i \cf5 "httpStatus"
+\f0\i0 \cf2 >\cf0 501\cf2 </\cf3 ee:set-variable\cf2 >\cf0 \
+                    \cf2 </\cf3 ee:variables\cf2 >\cf0 \
+                \cf2 </\cf3 ee:transform\cf2 >\cf0 \
+            \cf2 </\cf3 on-error-propagate\cf2 >\cf0 \
+        \cf2 </\cf3 error-handler\cf2 >\cf0 \
+    \cf2 </\cf3 flow\cf2 >\cf0 \
+    \cf2 <\cf3 flow\cf0  \cf4 name\cf0 =
+\f1\i \cf5 "employee-console"
+\f0\i0 \cf2 >\cf0 \
+        \cf2 <\cf3 http:listener\cf0  \cf4 config-ref\cf0 =
+\f1\i \cf5 "employee-httpListenerConfig"
+\f0\i0 \cf0  \cf4 path\cf0 =
+\f1\i \cf5 "/console/*"
+\f0\i0 \cf2 >\cf0 \
+            \cf2 <\cf3 http:response\cf0  \cf4 statusCode\cf0 =
+\f1\i \cf5 "#[vars\cf6 .\cf5 httpStatus default 200]"
+\f0\i0 \cf2 >\cf0 \
+                \cf2 <\cf3 http:headers\cf2 >\cf0 #[vars\cf6 .\cf0 outboundHeaders default \{\}]\cf2 </\cf3 http:headers\cf2 >\cf0 \
+            \cf2 </\cf3 http:response\cf2 >\cf0 \
+            \cf2 <\cf3 http:error-response\cf0  \cf4 statusCode\cf0 =
+\f1\i \cf5 "#[vars\cf6 .\cf5 httpStatus default 500]"
+\f0\i0 \cf2 >\cf0 \
+                \cf2 <\cf3 http:body\cf2 >\cf0 #[payload]\cf2 </\cf3 http:body\cf2 >\cf0 \
+                \cf2 <\cf3 http:headers\cf2 >\cf0 #[vars\cf6 .\cf0 outboundHeaders default \{\}]\cf2 </\cf3 http:headers\cf2 >\cf0 \
+            \cf2 </\cf3 http:error-response\cf2 >\cf0 \
+        \cf2 </\cf3 http:listener\cf2 >\cf0 \
+        \cf2 <\cf3 apikit:console\cf0  \cf4 config-ref\cf0 =
+\f1\i \cf5 "employee-config"
+\f0\i0 \cf0  \cf2 />\cf0 \
+        \cf2 <\cf3 error-handler\cf2 >\cf0 \
+            \cf2 <\cf3 on-error-propagate\cf0  \cf4 type\cf0 =
+\f1\i \cf5 "APIKIT:NOT_FOUND"
+\f0\i0 \cf2 >\cf0 \
+                \cf2 <\cf3 ee:transform\cf0  \cf4 xmlns:ee\cf0 =
+\f1\i \cf5 "http://www.mulesoft.org/schema/mule/ee/core"
+\f0\i0 \cf0  \cf4 xsi:schemaLocation\cf0 =
+\f1\i \cf5 "http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd"
+\f0\i0 \cf2 >\cf0 \
+                    \cf2 <\cf3 ee:message\cf2 >\cf0 \
+                        \cf2 <\cf3 ee:set-payload\cf2 ><![CDATA[\cf0 %dw 2.0\
+output application/json\
+---\
+\{message: "Resource not found"\}\cf2 ]]></\cf3 ee:set-payload\cf2 >\cf0 \
+                    \cf2 </\cf3 ee:message\cf2 >\cf0 \
+                    \cf2 <\cf3 ee:variables\cf2 >\cf0 \
+                        \cf2 <\cf3 ee:set-variable\cf0  \cf4 variableName\cf0 =
+\f1\i \cf5 "httpStatus"
+\f0\i0 \cf2 >\cf0 404\cf2 </\cf3 ee:set-variable\cf2 >\cf0 \
+                    \cf2 </\cf3 ee:variables\cf2 >\cf0 \
+                \cf2 </\cf3 ee:transform\cf2 >\cf0 \
+            \cf2 </\cf3 on-error-propagate\cf2 >\cf0 \
+        \cf2 </\cf3 error-handler\cf2 >\cf0 \
+    \cf2 </\cf3 flow\cf2 >\cf0 \
+    \cf2 <\cf3 flow\cf0  \cf4 name\cf0 =
+\f1\i \cf5 "put:\\employee\\employee(id):employee-config"
+\f0\i0 \cf2 >\cf0 \
+        \cf2 <\cf3 ee:transform\cf0  \cf4 xmlns:ee\cf0 =
+\f1\i \cf5 "http://www.mulesoft.org/schema/mule/ee/core"
+\f0\i0 \cf2 >\cf0 \
+            \cf2 <\cf3 ee:variables\cf2 >\cf0 \
+                \cf2 <\cf3 ee:set-variable\cf0  \cf4 variableName\cf0 =
+\f1\i \cf5 "id"
+\f0\i0 \cf2 >\cf0 attributes.uriParams.'id'\cf2 </\cf3 ee:set-variable\cf2 >\cf0 \
+            \cf2 </\cf3 ee:variables\cf2 >\cf0 \
+        \cf2 </\cf3 ee:transform\cf2 >\cf0 \
+        \cf2 <\cf3 db:update\cf0  \cf4 doc:name\cf0 =
+\f1\i \cf5 "Update"
+\f0\i0 \cf0  \cf4 doc:id\cf0 =
+\f1\i \cf5 "98a3bb96-ec4c-4e68-b00e-2dfc2a67da57"
+\f0\i0 \cf0  \cf4 config-ref\cf0 =
+\f1\i \cf5 "Database_Config"
+\f0\i0 \cf2 >\cf0 \
+			\cf2 <\cf3 db:sql\cf0  \cf2 ><![CDATA[\cf0 update employee.employeeinfo SET employeeID =:employeeID, ename =:ename, addressLine1 =:addressLine1,addressLine2 =:addressLine2, city =:city, state =:state, zipcode =:zipcode, country =:country, age =:age, salary =:salary\
+						 WHERE employeeID =:employeeID\cf2 ]]></\cf3 db:sql\cf2 >\cf0 \
+		\cf2 </\cf3 db:update\cf2 >\cf0 \
+		\cf2 <\cf3 ee:transform\cf0  \cf4 xmlns:ee\cf0 =
+\f1\i \cf5 "http://www.mulesoft.org/schema/mule/ee/core"
+\f0\i0 \cf0  \cf4 xsi:schemaLocation\cf0 =
+\f1\i \cf5 "http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd"
+\f0\i0 \cf2 >\cf0 \
+            \cf2 <\cf3 ee:message\cf2 >\cf0 \
+                \cf2 <\cf3 ee:set-payload\cf2 ><![CDATA[\cf0 %dw 2.0\
+output application/json\
+---\
+"message":"data updated"\cf2 ]]></\cf3 ee:set-payload\cf2 >\cf0 \
+            \cf2 </\cf3 ee:message\cf2 >\cf0 \
+        \cf2 </\cf3 ee:transform\cf2 >\cf0 \
+    \cf2 </\cf3 flow\cf2 >\cf0 \
+    \cf2 <\cf3 flow\cf0  \cf4 name\cf0 =
+\f1\i \cf5 "delete:\\employee\\employee(id):employee-config"
+\f0\i0 \cf2 >\cf0 \
+        \cf2 <\cf3 ee:transform\cf0  \cf4 doc:name\cf0 =
+\f1\i \cf5 "Transform Message"
+\f0\i0 \cf0  \cf4 doc:id\cf0 =
+\f1\i \cf5 "9d345931-8c57-41dc-a3fe-15c3afb35560"
+\f0\i0 \cf0  \cf2 >\cf0 \
+			\cf2 <\cf3 ee:message\cf0  \cf2 >\cf0 \
+				\cf2 <\cf3 ee:set-payload\cf0  \cf2 ><![CDATA[\cf0 %dw 2.0\
+output application/java\
+---\
+\{\
+\}\cf2 ]]></\cf3 ee:set-payload\cf2 >\cf0 \
+			\cf2 </\cf3 ee:message\cf2 >\cf0 \
+			\cf2 <\cf3 ee:variables\cf0  \cf2 >\cf0 \
+				\cf2 <\cf3 ee:set-variable\cf0  \cf4 variableName\cf0 =
+\f1\i \cf5 "empid"
+\f0\i0 \cf0  \cf2 ><![CDATA[\cf0 attributes.uriParams.'id'\cf2 ]]></\cf3 ee:set-variable\cf2 >\cf0 \
+			\cf2 </\cf3 ee:variables\cf2 >\cf0 \
+		\cf2 </\cf3 ee:transform\cf2 >\cf0 \
+		\cf2 <\cf3 db:delete\cf0  \cf4 doc:name\cf0 =
+\f1\i \cf5 "Delete"
+\f0\i0 \cf0  \cf4 doc:id\cf0 =
+\f1\i \cf5 "bc50f3b5-94ee-4c20-ad17-d2c5cddf4652"
+\f0\i0 \cf0  \cf4 config-ref\cf0 =
+\f1\i \cf5 "Database_Config"
+\f0\i0 \cf2 >\cf0 \
+			\cf2 <\cf3 db:sql\cf0  \cf2 ><![CDATA[\cf0  DELETE FROM employeeinfo\
+WHERE  employeeID =:employeeID\cf2 ]]></\cf3 db:sql\cf2 >\cf0 \
+			\cf2 <\cf3 db:input-parameters\cf0  \cf2 ><![CDATA[\cf0 #[\{\
+	employeeID:attributes\cf6 .\cf0 queryParams\cf6 .\cf0 employeeID\
+\}]\cf2 ]]></\cf3 db:input-parameters\cf2 >\cf0 \
+		\cf2 </\cf3 db:delete\cf2 >\cf0 \
+		\cf2 <\cf3 ee:transform\cf0  \cf4 xmlns:ee\cf0 =
+\f1\i \cf5 "http://www.mulesoft.org/schema/mule/ee/core"
+\f0\i0 \cf0  \cf4 xsi:schemaLocation\cf0 =
+\f1\i \cf5 "http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd"
+\f0\i0 \cf2 >\cf0 \
+            \cf2 <\cf3 ee:message\cf2 >\cf0 \
+                \cf2 <\cf3 ee:set-payload\cf2 ><![CDATA[\cf0 %dw 2.0\
+output application/json\
+---\
+\{\
+  message: "info deleted"\
+\}\cf2 ]]></\cf3 ee:set-payload\cf2 >\cf0 \
+            \cf2 </\cf3 ee:message\cf2 >\cf0 \
+        \cf2 </\cf3 ee:transform\cf2 >\cf0 \
+    \cf2 </\cf3 flow\cf2 >\cf0 \
+    \cf2 <\cf3 flow\cf0  \cf4 name\cf0 =
+\f1\i \cf5 "get:\\employee:employee-config"
+\f0\i0 \cf2 >\cf0 \
+        \cf2 <\cf3 db:select\cf0  \cf4 doc:name\cf0 =
+\f1\i \cf5 "Select"
+\f0\i0 \cf0  \cf4 doc:id\cf0 =
+\f1\i \cf5 "52bdff91-7a66-4dfd-904f-c8ebb5ebdb3f"
+\f0\i0 \cf0  \cf4 config-ref\cf0 =
+\f1\i \cf5 "Database_Config"
+\f0\i0 \cf2 >\cf0 \
+			\cf2 <\cf3 db:sql\cf0  \cf2 ><![CDATA[\cf0 SELECT * FROM employee.employeeinfo;\cf2 ]]></\cf3 db:sql\cf2 >\cf0 \
+		\cf2 </\cf3 db:select\cf2 >\cf0 \
+		\cf2 <\cf3 ee:transform\cf0  \cf4 xmlns:ee\cf0 =
+\f1\i \cf5 "http://www.mulesoft.org/schema/mule/ee/core"
+\f0\i0 \cf0  \cf4 xsi:schemaLocation\cf0 =
+\f1\i \cf5 "http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd"
+\f0\i0 \cf2 >\cf0 \
+            \cf2 <\cf3 ee:message\cf2 >\cf0 \
+                \cf2 <\cf3 ee:set-payload\cf2 ><![CDATA[\cf0 %dw 2.0\
+output application/json\
+---\
+payload\cf2 ]]></\cf3 ee:set-payload\cf2 >\cf0 \
+            \cf2 </\cf3 ee:message\cf2 >\cf0 \
+        \cf2 </\cf3 ee:transform\cf2 >\cf0 \
+    \cf2 </\cf3 flow\cf2 >\cf0 \
+    \cf2 <\cf3 flow\cf0  \cf4 name\cf0 =
+\f1\i \cf5 "post:\\employee:employee-config"
+\f0\i0 \cf2 >\cf0 \
+        \cf2 <\cf3 db:insert\cf0  \cf4 doc:name\cf0 =
+\f1\i \cf5 "Insert"
+\f0\i0 \cf0  \cf4 doc:id\cf0 =
+\f1\i \cf5 "ed180926-6e97-4246-b6c9-656a326e2e9f"
+\f0\i0 \cf0  \cf4 config-ref\cf0 =
+\f1\i \cf5 "Database_Config"
+\f0\i0 \cf2 >\cf0 \
+			\cf2 <\cf3 db:sql\cf0  \cf2 ><![CDATA[\cf0 insert into employeeinfo (employeeID, ename, addressLine1, addressLine2, city, state, zipcode, country, age, salary)\
+	value					 (:employeeID, :ename, :addressLine1, :addressLine2, :city, :state, :zipcode, :country, :age, :salary);\cf2 ]]></\cf3 db:sql\cf2 >\cf0 \
+			\cf2 <\cf3 db:input-parameters\cf0  \cf2 ><![CDATA[\cf0 #[\{\
+employeeID:payload\cf6 .\cf0 employeeID\cf6 ,\cf0 \
+ename:payload\cf6 .\cf0 ename\cf6 ,\cf0 \
+addressLine1:payload\cf6 .\cf0 addressLine1\cf6 ,\cf0 \
+addressLine2:payload\cf6 .\cf0 addressLine2\cf6 ,\cf0 \
+city:payload\cf6 .\cf0 city\cf6 ,\cf0 \
+state:payload\cf6 .\cf0 state\cf6 ,\cf0 \
+zipcode:payload\cf6 .\cf0 zipcode\cf6 ,\cf0 \
+country:payload\cf6 .\cf0 country\cf6 ,\cf0 \
+age:payload\cf6 .\cf0 age\cf6 ,\cf0 \
+salary:payload\cf6 .\cf0 salary\cf6 ,\cf0 \
+\
+\
+\
+\}]\cf2 ]]></\cf3 db:input-parameters\cf2 >\cf0 \
+		\cf2 </\cf3 db:insert\cf2 >\cf0 \
+		\cf2 <\cf3 ee:transform\cf0  \cf4 xmlns:ee\cf0 =
+\f1\i \cf5 "http://www.mulesoft.org/schema/mule/ee/core"
+\f0\i0 \cf0  \cf4 xsi:schemaLocation\cf0 =
+\f1\i \cf5 "http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd"
+\f0\i0 \cf2 >\cf0 \
+            \cf2 <\cf3 ee:message\cf2 >\cf0 \
+                \cf2 <\cf3 ee:set-payload\cf2 ><![CDATA[\cf0 %dw 2.0\
+output application/json\
+---\
+\{\
+	"message":"Data Inserted"\
+\}\cf2 ]]></\cf3 ee:set-payload\cf2 >\cf0 \
+            \cf2 </\cf3 ee:message\cf2 >\cf0 \
+        \cf2 </\cf3 ee:transform\cf2 >\cf0 \
+    \cf2 </\cf3 flow\cf2 >\cf0 \
+\pard\pardeftab720\partightenfactor0
+\cf2 </\cf3 mule\cf2 >\cf0 \
+}
