@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+    <http:listener-config name="employee-httpListenerConfig">
+        <http:listener-connection host="0.0.0.0" port="8081" />
+    </http:listener-config>
+    <apikit:config name="employee-config" api="employee.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <db:config name="Database_Config" doc:name="Database Config" doc:id="70ab7e85-0c5c-47a4-acf8-c32b1ceff756" >
+		<db:my-sql-connection host="localhost" port="3306" user="root" password="root" database="employee" />
+	</db:config>
+	<flow name="employee-main">
+        <http:listener config-ref="employee-httpListenerConfig" path="/api/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:router config-ref="employee-config" />
+    </flow>
+    <flow name="put:\employee\(Emp_id):application\json:employee-config">
+		<db:update doc:name="Update" doc:id="e7c19e82-d26a-4998-81c3-331da78de940" config-ref="Database_Config">
+			<db:sql ><![CDATA[update employee set First_name=:First_name,Last_name=:Last_name,Age=:Age,Gender=:Gender,Salary=:Salary where Emp_id=:empid]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{   empid: attributes.uriParams.Emp_id,
+	First_name:payload.First_name,
+	Last_name:payload.Last_name,
+	Age:payload.Age,
+	Gender:payload.Gender,
+	Salary:payload.Salary
+}]]]></db:input-parameters>
+		</db:update>
+		<ee:transform doc:name="Transform Message" doc:id="da314a24-af9b-46ee-b2e4-991973b99df1" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+"data updated successfully..."]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+    </flow>
+    <flow name="delete:\employee\(Emp_id):application\json:employee-config">
+		<db:delete doc:name="Delete" doc:id="c0bde4f9-4eec-4eae-8888-ef0c8f2f27c4" config-ref="Database_Config">
+			<db:sql ><![CDATA[delete from employee where Emp_id = :empid]]></db:sql>
+			<db:input-parameters ><![CDATA[#[%dw 2.0
+output application/java
+---
+{
+	empid: attributes.uriParams.'Emp_id'
+}]]]></db:input-parameters>
+		</db:delete>
+		<ee:transform doc:name="Transform Message" doc:id="389b9b5e-d880-4fa3-bb24-790e9c1fd3ad" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+"data deleted successfully..."]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+    </flow>
+    <flow name="get:\employee:employee-config">
+        <db:select doc:name="Select" doc:id="776f9eac-2381-4a63-b331-29577a745866" config-ref="Database_Config">
+			<db:sql ><![CDATA[select * from employee]]></db:sql>
+		</db:select>
+		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="get:\employee\(Emp_id):employee-config">
+        <db:select doc:name="Select" doc:id="dc43c7c1-c34f-4424-9619-7cadf87dac19" config-ref="Database_Config">
+			<db:sql ><![CDATA[select * from employee where Emp_id = :empid]]></db:sql>
+			<db:input-parameters ><![CDATA[#[%dw 2.0
+output application/java
+---
+{
+	empid: attributes.uriParams.'Emp_id'
+}]]]></db:input-parameters>
+		</db:select>
+		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="post:\CreateEmployee:application\json:employee-config">
+        <db:insert doc:name="Insert" doc:id="72baf370-e514-41c7-9787-61b984e014c7" config-ref="Database_Config">
+			<db:sql ><![CDATA[insert into employee(First_name,Last_name,Age,Gender,Salary) values( :First_name,:Last_name,:Age,:Gender,:Salary);]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	
+    First_name: payload.First_name as String,
+	Last_name: payload.Last_name as String,
+	Age: payload.Age as Number,
+	Gender: payload.Gender,
+	Salary:payload.Salary as Number
+}]]]></db:input-parameters>
+		</db:insert>
+		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  message: "data created succesfully"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+</mule>
