@@ -1,0 +1,48 @@
+#%RAML 1.0
+title: employee-info
+version: 1.0.0
+baseUri: http://employee.info.finder
+description: How ApiKit works
+
+/employee:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example: {
+              message:"success"
+            }
+      400:
+        body:
+          application/json:
+            example: {
+              message:"not allowed"
+            } 
+  post:
+    responses:
+      201:
+        body:
+          application/json:
+            example: {
+              message:"user created"
+            }
+  /{id}:
+    put: 
+      responses:
+        200:
+          body:
+            application/json:
+              example: {
+                  message:"user info updated"
+              }
+    delete:
+      responses:
+        200:
+          body:
+            application/json:
+              example: {
+                message:"user deleted"
+              }
+                
+                
