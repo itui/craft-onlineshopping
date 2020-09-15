@@ -1,0 +1,69 @@
+#%RAML 1.0
+baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/a42046e7-099d-466d-8a81-4059c4510641/ # 
+title: employee
+version: 1.0
+/employee:
+  description: this is the employee resource
+  get:
+    description: this is employee get method resource
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+               {
+                "Message":"Resource succesfully posted"
+              }
+      404:
+        body:
+          application/json:
+            example:
+              {
+                "Message":"The source data not found"
+              }
+  post:
+    responses:
+      201:
+        body:
+          application/json:
+            example:
+              {
+                message : created succesfully
+              }  
+
+  /{id}:
+    put:
+      description: this is the  update resources
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                {
+                   "Message":" updated data "
+                }
+        404:
+          body:
+            application/json:
+              example:
+                {
+                  "Message":" The update data is not found"
+                }
+    delete:
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                {
+                  "Message":"Data deleted succesfully"
+                }
+        404:
+          body:
+            application/json:
+              example:
+                {
+                  "Message":"No data to be deleted"
+                }
+       
+      
