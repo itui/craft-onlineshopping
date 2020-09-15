@@ -1,0 +1,127 @@
+#%RAML 1.0
+baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/49f384f7-3479-421d-b7e4-ba01cbab5d68/ # 
+title: employeeRaml
+version: 1.0
+mediaType:
+- application/json
+protocols:
+  - http
+types:
+  empDataType: !include empData.raml
+securitySchemes:
+  Oauth: !include securityScheme.raml
+/employees:
+  get:
+    queryParameters:
+      employeeId:
+        description: empid
+        type: integer
+        required: false
+      fullname:
+        description: fname and lname
+        type: string
+        enum:
+          [alem, kebede] 
+        required: false
+      address:
+        description: employee state
+        type: string
+        maxLength: 20
+        minLength: 5 
+        required: false
+    responses:
+      200:
+        body:
+          application/json: 
+            example:
+              [ {
+                "empid": 0034,
+                "fname": "Nathan",
+                "lname": "Mark",
+                "address": "California",
+                "age": 23,
+                "salary":5000
+              },  
+              {
+                "empid": 0045,
+                  "fname": "Abel",
+                  "lname": "Tadesse",
+                  "address": "Washington",
+                  "age": 32,
+                  "salary": 7000
+              }
+            ]         
+    
+      401:
+        body:
+          application/json:
+            example:
+              {
+                "message": "Unauthorized access"
+              }
+      404:
+        body:
+          application/json:
+            example:
+              {
+                "message" : "Not Found"
+              }
+  post:
+    responses:
+      201:
+        body:
+          application/json:
+            example:
+              {
+                "message": "Record inserted"
+             }
+      401:
+        body:
+          application/json:
+            example:
+              {
+                "message": "Unauthorized access"
+              }       
+  
+  /{empid}:                                      
+      put:
+        responses:
+          200:
+            body:
+              application/json:
+                example:
+                  {
+                    "message": "Record updated"
+                  }
+          401:
+            body:
+              application/json:
+                example:
+                  {
+                    "message": "Unauthorized access"
+                  }
+      delete:
+        responses:
+          200:
+            body:
+              application/json:
+                example:
+                  {
+                    "message": "Record deleted"
+                  }
+          401:
+            body:
+              application/json:
+                example:
+                  {
+                    "message": "Unauthorized access"
+                  }
+
+
+            
+                    
+    
+
+
+    
+  

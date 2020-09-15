@@ -1,0 +1,21 @@
+#%RAML 1.0 SecurityScheme
+type: OAuth 2.0
+description: 
+describedBy:
+  headers:
+    Authorization: 
+      description: this API supports securiy authentication
+      type: string 
+  queryParameters:
+    access_tokens:
+      description: user has to send valid token with querryParam
+      type: string
+  responses:
+    401:
+      description: bad or expire token is used
+    403:
+      description: not allowed to access the reource
+
+
+
+    

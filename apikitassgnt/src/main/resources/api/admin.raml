@@ -1,0 +1,97 @@
+#%RAML 1.0 Extension
+extends: employeeRaml.raml
+
+/adminEmployees:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              {
+                "message": "records generated "
+              }
+      401: 
+        body:
+          application/json:
+            example:
+              {
+                "message": " Unauthorized access"
+              }
+      404:
+        body:
+          application/json:
+            example:
+              {
+                "message": "unauthorized access"
+              }                                                                
+  post:
+    responses:
+      201:
+        body:
+          application/json:
+            example:  
+             {
+               "message":"records added"
+             }
+      401:
+        body:
+          application/json:
+            example:
+              {
+                "message": " Unauthorized access"
+              }
+      404:
+        body:
+          application/json:
+            example:
+              {
+                "message": "unauthorized access"
+              }
+  put:
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              {
+                "message": "records updated"
+              }
+      401:
+        body:
+          application/json:
+            example:
+              {
+                "message": " Unauthorized access"
+              } 
+      404:
+        body:
+          application/json:
+            example:
+              {
+                "message": "unauthorized access"
+              }        
+
+  delete:
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              {
+                "records deleted"
+              }
+      401:
+        body:
+          application/json:
+            example:
+              {
+                "message": " Unauthorized access"
+              }              
+      404:
+        body:
+          application/json:
+            example:
+              {
+                "message": "unauthorized access"
+              }                      
