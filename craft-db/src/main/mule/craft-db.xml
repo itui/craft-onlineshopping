@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="a9a9948a-b197-4c44-80fb-e599b3293b40" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="craft-dbFlow" doc:id="351e2e55-8b95-435e-bf80-4284b33ae220" >
+		<http:listener doc:name="Listener" doc:id="00fbd9f4-9d30-4811-9bd2-af9a73ed25f5" path="/selectProducts" config-ref="HTTP_Listener_config"/>
+		<db:select doc:id="6a8ef74d-282b-4623-9ac9-0d4c8be43aee" doc:name=""/>
+	</flow>
+</mule>
