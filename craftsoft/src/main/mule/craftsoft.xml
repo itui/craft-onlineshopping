@@ -59,12 +59,13 @@ output application/json
 		<ee:transform doc:name="Transform Message" doc:id="34989289-dc78-4776-acf8-875cfc1b0698" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
+
 output application/json
+
 ---
-{               
-                "userid": 970
-               
-}]]></ee:set-payload>
+              {
+              	"userid":34
+              }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 	</flow>
@@ -92,5 +93,9 @@ output application/json
                 "username": "Abcl"}]]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+	</flow>
+	<flow name="craftsoftFlow" doc:id="0b04dc61-c06b-4e10-95ed-7c5177261d07" >
+		<http:listener doc:name="Listener" doc:id="40c42ee6-b4fb-4542-bc9d-0e4e443c40c3" config-ref="HTTP_Listener_config" path="/addvar"/>
+		<set-payload value="payload" doc:name="Set Payload" doc:id="32051868-ec6f-4712-8c5f-d910e121ede2" />
 	</flow>
 </mule>
