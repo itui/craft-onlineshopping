@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="d9faa80e-df61-41f3-acf1-7a173b374606" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="6573edfc-2f06-4e19-a12b-ccdde27539b2" >
+		<db:my-sql-connection host="dev.icraftsoft.net" port="3306" user="trainee" password="shoppingCl@55" database="craftshopping" />
+	</db:config>
+	<flow name="dataconnectorFlow" doc:id="d087cc76-6640-448f-95d2-d78dd5eeca1f" >
+		<http:listener doc:name="listener" doc:id="822077a2-3f51-4361-a267-edeaf0102da2" config-ref="HTTP_Listener_config" path="/selectproducts"/>
+		<db:select doc:name="Select" doc:id="6292f0f6-a32b-41d2-9556-d48245804383" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT * FROM products;]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="d4464dc2-e0af-4304-81b7-e9eb74cc9763" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="dataconnectorFlow1" doc:id="97494005-4113-4072-aca7-f81a0248cbf3" >
+		<http:listener doc:name="Listener" doc:id="cc733619-91aa-4775-814c-7c4dfceab708" config-ref="HTTP_Listener_config" path="/insert"/>
+		<db:insert doc:name="Insert" doc:id="df8947f0-cb88-4701-a20c-9287cf196364" config-ref="Database_Config">
+			<db:sql ><![CDATA[
+insert into products (productid, categoryid , name, description, video_url, price)
+ values(:productid,:categoryid,:name,:description,:video_url,:price);
+]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	productid: payload.productid,
+	categoryid: payload.categoryid,
+	
+	name: payload.name,
+	description: payload.description,
+	video_url: payload.video_url,
+	price: payload.price
+}]]]></db:input-parameters>
+		</db:insert>
+		<ee:transform doc:name="Transform Message" doc:id="fdb32688-bc3d-4c49-88b4-b268af3dd963" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	" message": " data inserted"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="dataconnectorFlow2" doc:id="a0214784-3e64-48e1-b986-c1e50638fa3a" >
+		<http:listener doc:name="Listener" doc:id="397dd9df-f232-4e26-96fe-5646ba14932b" config-ref="HTTP_Listener_config" path="/Deletedproducts"/>
+		<db:delete doc:name="Delete" doc:id="9141976c-0b49-488b-9b27-86deb9b6a35b" config-ref="Database_Config">
+			<db:sql ><![CDATA[delete from products where productid = :productid;]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	productid:attributes.queryParams.productid
+}]]]></db:input-parameters>
+		</db:delete>
+		<ee:transform doc:name="Transform Message" doc:id="5c638041-447b-4125-b69b-29e84451b58d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message": "product deleted"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
