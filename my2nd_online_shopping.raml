@@ -1,0 +1,51 @@
+#%RAML 1.0
+baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/d557f682-ce56-4bde-9713-b527d7d2d400/ # 
+title: calc_Length
+/firstname:
+  get:
+    queryParameters: 
+      firstname:
+        description: calculate lenght of first name
+        type: string
+        required: true
+        default: integer
+    responses: 
+      200:
+        body: 
+          application/json:
+            example: array
+  post:
+    queryParameters:
+      firstname:
+        type: string
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+
+              {"message": "first name added susucssfully"}
+      204:
+        body:
+          application/json:
+            example:
+
+              {"message": "invalid entry"}
+
+
+
+
+/lastname:
+  get:
+    queryParameters:
+      lastname:
+        description: calculate lenght of last name
+        type: string
+        required: true
+        default: integer
+    responses: 
+      200:
+        body: 
+          application/json:
+            example: array
+  
