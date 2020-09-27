@@ -1,0 +1,134 @@
+#%RAML 1.0
+baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/1ac5ebd0-b753-4961-88d7-568cdf6a88df/ # 
+title: new raml
+description: this is for new customers and students raml
+/customers:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              {
+
+
+                FirstName: "daniel",
+                LastName: "james",
+                Nickname: "dani",
+                Age: 24,
+                Gender: "M",
+                country: "armenia",
+                salary: 75000,
+                bonus: 45672,
+                city: "London"
+              }
+      204:
+        body:
+          application/json:
+            example:
+              {messsage:"customer is not foound"}
+  /customerid:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                {
+                ID: 22,
+                FirstName: "daniel",
+                LastName: "james",
+                Nickname: "dani",
+                Age: 24,
+                Gender: "M",
+                country: "armenia",
+                salary: 75000,
+                bonus: 45672,
+                city: "London"
+              }
+        204:
+          body:
+            application/json:
+              example:
+                {messsage:"customer is not found"}
+          
+  post:
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              {ID: 22}
+  delete:
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                {message: "customer deleted"}
+  
+  put:
+    
+/students:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              {
+                FirstName: "daniel",
+                LastName: "james",
+                Nickname: "dani",
+                Age: 24,
+                Gender: "M",
+                country: "armenia",
+                salary: 75000,
+                bonus: 45672,
+                city: "London"
+              }
+      204:
+        body:
+          application/json:
+            example:
+              {messsage:"customer is not foound"}
+  /StudentID:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                {
+                StudentID: 41,
+                FirstName: "abebe",
+                LastName: "abel",
+                Address: "1360biddenavenue",
+                PostalCode: 11222,
+                country: "usa",
+                city: "saint paul",
+                salary: 75000,
+                mark: 72
+                }
+        204:
+          body:
+            application/json:
+              example:
+                {messsage:"student is not found"}
+          
+  post:
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              {StudentID: 12}
+  delete:
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                {message: "student deleted"}
+
+  
