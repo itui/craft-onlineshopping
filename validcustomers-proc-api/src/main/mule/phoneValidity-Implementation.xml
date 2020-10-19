@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
+	xmlns:batch="http://www.mulesoft.org/schema/mule/batch" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/batch http://www.mulesoft.org/schema/mule/batch/current/mule-batch.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<flow name="phoneValidity-ImplementationFlow" doc:id="c5c7d781-f25e-4bef-b420-e83304066acc" >
+		<file:listener doc:name="RecievesXMLdata" doc:id="32728b66-f72a-4f1c-b336-b0e1e373c834" directory="C:\Users\Anise X360\Documents\Project folder\Input data" autoDelete="true" moveToDirectory="C:\Users\Anise X360\Documents\Project folder\Output data" config-ref="File_Config">
+			<scheduling-strategy >
+				<fixed-frequency />
+			</scheduling-strategy>
+		</file:listener>
+		<logger level="INFO" doc:name="Logger" doc:id="b2b117a5-ea28-40be-9ce9-21d467069262" message="************** FIRST LOGGER ******************"/>
+		<ee:transform doc:name="XMLtojava" doc:id="ff319aee-0180-4ed4-bb39-e25229db4182" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+payload.dataset.*record map {
+	id: $.id,
+	firstname: $.'first_name',
+	lastname: $.'last_name',
+	email: $.email,
+	ssn: $.ssn,
+	number: $.'phone_number' replace " " with ""
+}
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<batch:job jobName="phoneValidity-ImplementationBatch_Job" doc:id="b25437de-4d3b-45e4-9810-b22c90449ca8" >
+			<batch:process-records >
+				<batch:step name="Batch_Step" doc:id="fedf6a24-0ff1-426c-ae0f-2f7c6ce77f02" >
+					<try doc:name="Try" doc:id="52e319f1-f7a4-453d-92ba-9223a3edd413" >
+						<validation:matches-regex doc:name="ValidatesDigits" doc:id="40485054-5f46-4573-a5d9-6efeec038fc9" value="#[payload.number]" regex="[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$" config-ref="Validation_Config" />
+						<error-handler >
+							<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="d6b0e14f-c487-4e81-b8ba-6d091006b457" >
+								<ee:transform doc:name="Transform Message" doc:id="2a2ddfdf-be0a-4ad7-9629-cef8387d0e2e" >
+									<ee:message >
+										<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	"message": "error continue- Wrong digits"
+}]]></ee:set-payload>
+									</ee:message>
+								</ee:transform>
+							</on-error-continue>
+						</error-handler>
+					</try>
+					<ee:transform doc:name="CustomerProfileVar" doc:id="a47c8115-26e8-4ac9-9e53-80aba68d4304" >
+						<ee:message >
+							<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+payload]]></ee:set-payload>
+						</ee:message>
+						<ee:variables >
+							<ee:set-variable variableName="customerProfile" ><![CDATA[%dw 2.0
+output application/java
+---
+payload]]></ee:set-variable>
+						</ee:variables>
+					</ee:transform>
+					<http:request method="GET" doc:name="ConsumesValidNumbers" doc:id="4c80658d-888e-4553-a8ba-683ff3299ab3" config-ref="HTTP_Request_configuration" path="/validate?access_key=4cad53a3f47d89999108ec574ceb627a">
+						<http:body ><![CDATA[#[payload.number]]]></http:body>
+						<http:query-params ><![CDATA[#[output application/java
+---
+{
+	number : payload.number
+}]]]></http:query-params>
+					</http:request>
+					<ee:transform doc:name="VerifiedNumberVar" doc:id="5c3460fb-ca4e-4602-8b6b-89481dc50118" >
+						<ee:message >
+							<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+payload]]></ee:set-payload>
+						</ee:message>
+						<ee:variables >
+							<ee:set-variable variableName="verifiedNumber" ><![CDATA[%dw 2.0
+output application/java
+---
+payload]]></ee:set-variable>
+						</ee:variables>
+					</ee:transform>
+					<logger level="INFO" doc:name="Logger" doc:id="ec712bf8-941e-46e7-b7a5-32b2e4d31640" message="****************** Validation batch step completed *********************"/>
+				</batch:step>
+				<batch:step name="Database_Process_Batch_Step" doc:id="2009d29c-1a92-4811-8e88-43ae483ce794" >
+					<choice doc:name="SeparatesDatabyValidity" doc:id="f5712205-7965-47c0-8494-e6029489173a" >
+						<when expression="#[vars.verifiedNumber.valid == true]">
+							<ee:transform doc:name="CustomerProfile" doc:id="a2e030eb-8681-4a5f-8ccd-da749f010cae" >
+								<ee:message >
+									<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+vars.customerProfile]]></ee:set-payload>
+								</ee:message>
+							</ee:transform>
+							<ee:transform doc:name="ConstuctNumbertoDB" doc:id="0c1bb86e-d52c-4cd1-b6d9-75a60625f0d5">
+								<ee:message>
+									<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+[{
+	number: payload.number,
+	firstname: payload.firstname,
+	id: payload.id,
+	email: payload.email,
+	lastname: payload.lastname,
+	ssn: payload.ssn
+}]]]></ee:set-payload>
+								</ee:message>
+							</ee:transform>
+							<db:bulk-insert doc:name="BulkInsertData" doc:id="850e6af3-76b7-4884-90bd-148b1d38f162" config-ref="Database_Config">
+								<db:sql ><![CDATA[insert into profile (id, firstname, lastname, email, ssn, number) values (:id, :firstname, :lastname, :email, :ssn, :number);]]></db:sql>
+							</db:bulk-insert>
+						</when>
+						<otherwise >
+							<ee:transform doc:name="CustomerProfile" doc:id="67e4327e-fcac-4477-978e-a61c158a581f" >
+								<ee:message >
+									<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+vars.customerProfile]]></ee:set-payload>
+								</ee:message>
+							</ee:transform>
+							<file:write doc:name="WritesInvalidNumbers" doc:id="33e492fd-8ed0-4a34-85aa-c94df6ecd17e" path="C:\Users\Anise X360\Documents\Project folder\Wrong Phone Numbers\Wrong Number.json" config-ref="File_Config"/>
+						</otherwise>
+					</choice>
+				</batch:step>
+			</batch:process-records>
+			<batch:on-complete >
+				<logger level="INFO" doc:name="Logger" doc:id="3e5c145e-78d3-4972-b598-5e51eaf4966a" message="************** Batch Completed *****************"/>
+			</batch:on-complete>
+		</batch:job>
+	</flow>
+</mule>
