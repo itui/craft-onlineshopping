@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="customerDb-ImplementationFlow" doc:id="dee957d1-46f0-434e-82d9-d33c747d4015" >
+		<db:select doc:name="FetchesCustomerData" doc:id="ae0940cc-5584-481c-b69c-19bfc63237ba" config-ref="Database_Config">
+			<db:sql ><![CDATA[select * from profile;]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="ConvertstoJSON" doc:id="4da606cf-27c5-481d-8cb6-7da4f9cd26bd" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="76718330-6057-4f31-9d33-79b4f8c03233" message="***************** Database Accessed **********************"/>
+	</flow>
+</mule>
