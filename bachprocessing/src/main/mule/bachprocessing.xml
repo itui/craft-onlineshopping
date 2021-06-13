@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:batch="http://www.mulesoft.org/schema/mule/batch" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/batch http://www.mulesoft.org/schema/mule/batch/current/mule-batch.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="b7fe8f37-31b4-47b3-b57d-d7bc01515825" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="bachprocessingFlow" doc:id="abce33b8-db5a-46e9-a36d-1915fbd11635" >
+		<http:listener doc:name="Listener" doc:id="d8d0a78a-3f11-4bfb-9e1b-557b3b05f535" config-ref="HTTP_Listener_config" path="/bachprocesser"/>
+		<ee:transform doc:name="Transform Message" doc:id="51cc45c0-539b-4b5b-b5e2-98e51da34ef6" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+[
+{
+"id": "693cacff-147d-4b84-add8-dad773730508","itemname": "ss","itemcode": "0001","price": "50"},
+{"id": "693cacff-147d-4b84-add8-dad773730508","itemname": "bcc","itemcode": "0002","price": "100"},
+{"id": "693cacff-147d-4b84-add8-dad773730508","itemname": "hj","itemcode": "0003","price": "200"},
+{"id": "693cacff-147d-4b84-add8-dad773730508","itemname": "uiu","itemcode": "0004","price": "20"}
+]
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<flow-ref doc:name="Flow Reference" doc:id="2b291cb7-7bc5-43a9-9f06-ba6714eea413" name="bachproflowone"/>
+		<ee:transform doc:name="Transform Message" doc:id="a3299886-c31c-4bdb-98e3-33b48f81b5eb" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message": "bach processing completed!"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="bachproflowone" doc:id="df0350cb-7aa4-44c4-9db1-ac629682b31f" >
+		<batch:job jobName="bachprocessingBatch_Job" doc:id="64aa0c6f-2e3c-4705-b874-484ffe13452a" >
+			<batch:process-records >
+				<batch:step name="Batch_Step" doc:id="61953c77-60d9-4d2c-a30a-c937b4fb6449" >
+					<logger level="INFO" doc:name="Logger" doc:id="57fb4c68-db87-4433-b9ca-7c4bbc862aab" message="#[payload]"/>
+					<logger level="INFO" doc:name="Logger" doc:id="899b058f-8fe4-4461-89e9-368042745b45" message="The first bach processing finished!"/>
+				</batch:step>
+				<batch:step name="Batch_Step1" doc:id="e3038e77-6465-41ab-b2a7-5f85ec6b80c5" >
+					<logger level="INFO" doc:name="Logger" doc:id="1ca5a60a-070c-4781-8f3d-5f350d18ccc7" message="#[payload]"/>
+					<logger level="INFO" doc:name="Logger" doc:id="93d66bc2-fcc6-49b1-8b65-b61ff4344d59" message="The second bach processing finished!"/>
+				</batch:step>
+			</batch:process-records>
+			<batch:on-complete >
+				<logger level="INFO" doc:name="Logger" doc:id="749120ca-d005-493f-a0a8-df6003d549ab" message="Baach processe end!!"/>
+			</batch:on-complete>
+		</batch:job>
+	</flow>
+	<flow name="bachprocessingFlow1" doc:id="e2763781-ec76-42a6-b323-c25b74028ca5" >
+		<http:listener doc:name="Listener" doc:id="8fe757af-b744-4ad3-9325-3f89cb08b33c" config-ref="HTTP_Listener_config" path="/bachprocesser1"/>
+		<ee:transform doc:name="Transform Message" doc:id="2446950d-7932-4832-b9c3-f9d56086fa3d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+[
+{
+"id": "693cacff-147d-4b84-add8-dad773730508","itemname": "ss","itemcode": "0001","price": "50"},
+{"id": "693cacff-147d-4b84-add8-dad773730508","itemname": "bcc","itemcode": "0002","price": "100"},
+{"id": "693cacff-147d-4b84-add8-dad773730508","itemname": "hj","itemcode": "0003","price": "200"},
+{"id": "693cacff-147d-4b84-add8-dad773730508","itemname": "uiu","itemcode": "0004","price": "20"}
+]
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<flow-ref doc:name="Flow Reference" doc:id="162819c8-f975-4ace-9f33-d5319dfc1b5c" name="bachprocessingFlow2"/>
+		<ee:transform doc:name="Transform Message" doc:id="69d77708-3575-4695-808f-1471efbb7737" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message": "bach processing completed!"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="bachprocessingFlow2" doc:id="6bc0c4bd-5d68-405e-938f-23788840bc9c" >
+		<batch:job jobName="bachprocessingBatch_Job1" doc:id="ff2e4ad8-416a-482b-8df0-6d3692d0b85c" >
+			<batch:process-records >
+				<batch:step name="Batch_Step3" doc:id="211b7d46-9d64-416f-b7e9-c0cc42504452" >
+					<logger level="INFO" doc:name="Logger" doc:id="e48cfb44-fef2-4b2c-8697-d655e0358622" message="#[payload]"/>
+					<logger level="INFO" doc:name="Logger" doc:id="cb2e1b46-32f3-4c2a-8b4f-9425346b3448" message="The first bach processing finished"/>
+					<batch:aggregator doc:name="Batch Aggregator" doc:id="446469c8-3a09-4041-8faf-c62eefb88e31" size="2">
+						<logger level="INFO" doc:name="Logger" doc:id="4da7c1d1-cf9b-4c4c-9d0b-963d6de6960d" message="Aggrgate starter"/>
+					</batch:aggregator>
+				</batch:step>
+				<batch:step name="Batch_Step2" doc:id="787fefcb-cd2a-4b9e-bae9-0d963bf017de" >
+					<logger level="INFO" doc:name="Logger" doc:id="3b011578-790b-47d5-a199-b68468793d61" message="#[payload]"/>
+					<logger level="INFO" doc:name="Logger" doc:id="c7e93b8b-a6e6-46f9-996f-3d40206fbbeb" message="The second bacth process End"/>
+				</batch:step>
+			</batch:process-records>
+			<batch:on-complete >
+				<logger level="INFO" doc:name="Logger" doc:id="c57f586e-5281-42d3-bda8-489b2912c031" message="the bacth process End"/>
+			</batch:on-complete>
+		</batch:job>
+	</flow>
+</mule>
