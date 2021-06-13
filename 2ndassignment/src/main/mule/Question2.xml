@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<http:listener-config name="http" doc:name="HTTP Listener config" doc:id="73a20fbf-436a-451c-8050-93152630240d" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<db:config name="icraft" doc:name="Database Config" doc:id="14eaaa6d-f3e8-4c56-b9d3-d9911e13dd40" >
+		<db:my-sql-connection host="dev.icraftsoft.net" port="3306" user="trainee" password="shoppingCl@55" database="craftshopping" />
+	</db:config>
+	<db:config name="local" doc:name="Database Config" doc:id="30afb2f7-936c-4da2-881e-c70790ddd9de" >
+		<db:my-sql-connection host="localhost" port="3306" user="root" password="root" database="products" />
+	</db:config>
+	
+	<sub-flow name="products" doc:id="495c9616-b760-428b-a0fd-774537f2e83a" >
+		<db:select doc:name="Select" doc:id="e9ac8da9-fe04-4fc3-91e4-0a50513b696b" config-ref="icraft">
+			<db:sql><![CDATA[select * from products]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="e6e380e3-a115-4e59-807c-b94bb8546932">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<sub-flow name="users" doc:id="c6ae1ff1-7f7c-4985-8ca9-5d03bd44cb15" >
+		<db:select doc:name="Select" doc:id="7c3fae54-176f-45db-8a21-71b11ffe45ce" config-ref="icraft">
+			<db:sql ><![CDATA[select * from users]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="e06ea004-8721-445a-bc4c-a1d8baaea68a" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<flow name="Question2" doc:id="88c48c93-e48f-40b8-b5da-728ce3a06b01" >
+		<http:listener doc:name="Listener" doc:id="5071840f-e226-4a8d-94af-71ade4c88e6f" config-ref="http" path="/db"/>
+		<choice doc:name="Choice" doc:id="31947503-35f1-4774-b07b-a3857e2687a7" >
+			<when expression="#[attributes.queryParams.craft == 'products']">
+				<flow-ref doc:name="products" doc:id="2fe16b52-7c82-431e-adbe-6b5b6a6d8b31" name="products"/>
+			</when>
+			<when expression="#[attributes.queryParams.craft == 'users']">
+				<flow-ref doc:name="users" doc:id="d38db906-53e2-421d-ae57-485e958d21ca" name="users"/>
+			</when>
+		</choice>
+	</flow>
+</mule>

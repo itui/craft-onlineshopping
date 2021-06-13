@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="e2d4d852-e5ef-47b5-83b1-12ee7782fb18" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="16c03201-5efd-4cd3-af27-18037a2aa255" >
+		<db:my-sql-connection host="dev.icraftsoft.net" port="3306" user="trainee" password="shoppingCl@55" database="craftshopping" />
+	</db:config>
+	
+	<flow name="2ndassignmentFlow" doc:id="0fbfe763-bc18-4117-98bd-4e2b9f9da3a6" >
+		<http:listener doc:name="Listener" doc:id="d1667341-3ae0-470a-b8dc-4c84e77f82b5" path="question" config-ref="http"/>
+		<db:select doc:name="Select" doc:id="4c879265-2d57-47d1-be6e-ccf5607cc881" config-ref="icraft">
+			<db:sql ><![CDATA[select * from products;]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="700f7f69-971c-4424-a38e-09574c30e1d5" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+ payload map{
+	productid: $.productid ,
+	categoryid:$ .categoryid,
+	name:  $.name ,
+	description:$.description ,
+	video_url :$ .video_url,
+	price :  $.price
+} filter ($.price > 5000)]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<db:bulk-insert doc:name="Bulk insert" doc:id="d057586a-e21b-48d6-93c2-43213f9c3555" config-ref="Database_Config1">
+			<db:sql ><![CDATA[insert into products(productid,categoryid,description,name,video_url,price) values
+(:productid,:categoryid,:description,:name,:video_url,:price);]]></db:sql>
+		</db:bulk-insert>
+	</flow>
+	<flow name="2ndassignmentFlow1" doc:id="849ae4a9-d442-4ba2-a380-4056429c6ee0" >
+		<http:listener doc:name="Listener" doc:id="65aeac15-b2dc-41e8-9304-a243dfe4d129" config-ref="http" path="delete"/>
+		<db:delete doc:name="Delete" doc:id="e0825c94-28a1-4bbf-baa6-1883abca9b4f" config-ref="local">
+			<db:sql><![CDATA[delete from product;]]></db:sql>
+		</db:delete>
+		<ee:transform doc:name="Transform Message" doc:id="adb7dafe-9b42-4085-8735-42dd68db1452" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<db:config name="Database_Config1" doc:name="Database Config" doc:id="bb432db1-1334-4c24-95fa-0d8c8909b000">
+		<db:my-sql-connection host="localhost" port="3306" user="root" password="root" database="products" />
+	</db:config>
+</mule>
