@@ -1,0 +1,50 @@
+#%RAML 1.0 Extension
+extends: craft-online-shopping.raml
+resourceTypes:
+  collection: !include resource/adminRes.raml
+
+/Adminusers:   
+  type:
+    collection:
+      resourcePathName: user
+      resourcePath: user
+      resourcedelete: user
+      resourcedeleted: user
+
+/Adminproducts:
+  type:
+    collection:
+      resourcePathName: product
+      resourcePath: product
+      resourcedelete: product
+      resourcedeleted: product
+      resourcecreate: product
+      resourcecreated: product
+      resourceedit: product
+      resourceedited: product
+
+/Adminorders:
+  type:
+    collection:
+      resourcePathName: order
+      resourcePath: order
+      resourcedelete: order
+      resourcedeleted: order
+      resourcecreate: order
+      resourcecreated: order
+      resourceedit: order
+      resourceedited: order
+
+/Admincategory:
+  type:
+    collection:
+      resourcePathName: category
+      resourcePath: category
+      resourcedelete: category
+      resourcedeleted: category
+      resourcecreate: category
+      resourcecreated: category
+      resourceedit: category
+      resourceedited: category
+              
+                  
