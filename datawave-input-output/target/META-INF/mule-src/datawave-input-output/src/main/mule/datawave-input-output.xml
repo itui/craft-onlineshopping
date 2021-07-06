@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="f689e478-a343-4368-9d4a-8612e78ffe50" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="datawave-input-output-Q1" doc:id="55fbc26c-e4fe-4977-89ae-b79b0a46d5fc" >
+		<ee:transform doc:name="Transform Message" doc:id="1ae08b39-cf9a-4df2-bcb2-f4c6824e1150" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+ {
+	users: payload.user map (value,user) -> user : value
+}	
+
+ 
+]]></ee:set-payload>
+				<ee:set-attributes ><![CDATA[%dw 2.0
+output application/json
+---
+
+payload.user map (value,index) -> {(index):value}
+
+	
+
+	
+	
+	
+	
+		
+	
+
+
+ 
+
+	
+	
+
+	
+
+
+	
+
+
+	
+		
+	
+]]></ee:set-attributes>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="datawave-input-output-Q2" doc:id="4720a79a-7182-4baf-9859-16f769bd9b0f" >
+		<ee:transform doc:name="Transform Message" doc:id="37de2b46-dc7c-4798-9ceb-b0e26e6968a1" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+var cb  = "ABC -> "
+---
+
+payload map (value,index) -> {
+       ("id") : value.id,
+       ("itemname") : cb ++ value.itemname,
+       ("itemcode") : value.itemcode,
+       ("price") : value.price * 2
+    
+   }
+
+
+
+
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="datawave-input-output-Q3" doc:id="ccc1463c-25ff-42f1-8119-e979f6183a74" >
+		<ee:transform doc:name="Transform Message" doc:id="83add072-cba1-4c9a-964e-f784b8ad57d8" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+---
+ List_Of_Items:{item:payload map((value,index)-> " id= "  ++ '"'  ++ value.id ++ 
+ '"' 	++ " itemname= " ++ '" ' ++ value.itemname ++ '"'++ " itemcode= "
+ ++ '"' ++ value.itemcode ++ '"'++ " price= "++ '"' ++ value.price ++ '"' )}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="datawave-input-output-Q4" doc:id="d28181f5-da6b-428c-a4d8-214e7c6fcbdd" >
+		<ee:transform doc:name="Transform Message" doc:id="546ceede-4047-4304-8f9c-14b6c74641eb" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+
+---
+ payload map((value,index)->  value.id  ++ ", "
+  	++   value.itemname ++ ", "
+  ++ value.itemcode ++ ", "  ++ value.price) 
+// [[payload.id], [payload.itemname],[payload.itemcode][payload.price]] flatMap (value, index) -> value]]></ee:set-payload>
+				<ee:set-attributes ><![CDATA[%dw 2.0
+output application/xml
+---
+All_Items:{item:payload map((value,index)->   value.id  
+  	 ++ ", " ++   value.itemname ++
+  ", " ++   value.itemcode  ++ ", " ++
+   value.price)}
+
+
+]]></ee:set-attributes>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="datawave-input-output-Q6" doc:id="6f3574f1-e19e-49a1-866f-f701637dcf7d" >
+		<http:listener doc:name="Listener" doc:id="82001c4b-bd09-457b-b00e-a8918a2d0d62" config-ref="HTTP_Listener_config" path="/demo1"/>
+		<ee:transform doc:name="Transform Message" doc:id="465b9ba8-9ca5-42aa-95b0-ebb3986213cb" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+//[payload.employeers.employee.empAge] map ($)
+payload.employeers.*employee.empAge]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<set-payload value="#[payload]" doc:name="Set Payload" doc:id="7482bbd2-94fb-4d4c-9725-5e4195e85a8b" />
+		<logger level="INFO" doc:name="Logger" doc:id="425da47a-f46b-48b1-9392-e2ba90b30900" />
+	</flow>
+	<flow name="datawave-input-outputQ-7" doc:id="8f215c27-bde4-4185-b4b3-e2b95038a1a2" >
+		<ee:transform doc:name="Transform Message" doc:id="2ec01414-d77f-45a1-a58a-7c93a50a3c02" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/csv
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
