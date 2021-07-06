@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="d0f8deb6-1d39-444f-a976-82e9fe1649e1" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="var-projectFlow" doc:id="641effcd-aaf3-4603-af5e-e52e66b77369" >
+		<http:listener doc:name="Listener" doc:id="1ae80c5a-feb6-4c2b-b6fe-eef02a2171de" config-ref="HTTP_Listener_config" path="/demo1"/>
+		<set-variable value="#[attributes.queryParams.country]" doc:name="Set Variable" doc:id="2a002d8e-ad12-49c2-a0f6-711d4fb80d13" variableName="varcountry"/>
+		<ee:transform doc:name="Transform Message" doc:id="d1784f05-a4d6-4ee5-aab3-10f1f943f237" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+var myvar = " Tsion"
+var num1 = 456
+var num2 =2
+var total =  num1 * num2
+//var country = vars.varcountry
+var country = "USA"
+---
+if (country == "Ethiopia")
+	{ currency: " Birr"}
+else if (country == "UK")
+	{currency: " Pound"}	
+else if (country == "USA")
+	{currency: " Dollar"}
+else {currency: "currency not found"}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="var-projectFlow1" doc:id="1050c489-b30e-4da6-ac47-73dfb0415825" >
+		<ee:transform doc:name="Transform Message" doc:id="36512838-4037-4dfb-bfdd-2921b8e992a9" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+var name = "Rebecca"
+var name2 = "Tsion"
+var num = 24
+var h = "number"
+var a = {height: "Tall"}
+var b = {height: "short"}
+var c =["a","b","c"]++ [1,2,3]
+var d = avg([10, 500])
+var e =["a","b","c"] joinBy " @ "
+var f = ["Rebecca", "Tsion", "Bethelhem"] joinBy " hearts  "
+var g = min([45,63])
+//var t = [ d + g]
+var myarray = ["My","favorite", h , "is:", "24"]
+var fav = ["My " ++"favorite " ++ name ++ " is: "++ "24"]
+var l = name ++ " " ++ name2
+//var o = a ++ " " ++ b
+---
+{ "replace": "admin123" replace "123" with("ID") }]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="var-projectFlow2" doc:id="86f5e1d4-0475-468d-8a0e-7eea1efdf582" >
+		<http:listener doc:name="Listener" doc:id="bceb307c-6f1d-4700-82ed-bc258beff7e6" config-ref="HTTP_Listener_config" path="/query"/>
+		<set-variable value="#[attributes.queryParams.username]" doc:name="Set Variable" doc:id="49cb16d6-fbf2-4c20-a1bc-669344c86cb2" variableName="myvar"/>
+		<logger level="INFO" doc:name="Logger" doc:id="dd260e25-3b65-4aba-83d2-687b4e3fd7ef" message="#[vars.myvar]"/>
+	</flow>
+	<flow name="var-projectFlow3" doc:id="aba4a2f6-8ef6-4b5a-a4d8-983a3befa063" >
+		<http:listener doc:name="Listener" doc:id="5200fd80-b631-44e1-be97-7b073e2562b0" config-ref="HTTP_Listener_config" path="/"/>
+		<ee:transform doc:name="Transform Message" doc:id="69b5a539-fce5-4c61-9207-1bc7434ae7ad" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+ payload.barcode]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

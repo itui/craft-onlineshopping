@@ -1,0 +1,134 @@
+#%RAML 1.0
+baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/184e4cf5-b594-437a-8cad-6a0490d06e6a/ # 
+title: online-shopping  
+version: 1.0
+mediaType: 
+- application/json
+uses:
+  mylib: library.raml
+/users:
+ description: get all users resourcee
+ get:
+  queryParameters:
+    id:
+      description: id
+      type: integer
+      required: false
+    fullname:
+      description: fname and lname
+      type: string
+      enum:
+        [Rebecca,Tsion]
+      required: false  
+    username:
+      description: username
+      maxLength: 10
+      minLength: 2
+      required: false
+      default: Rebecca
+  description: users resource get http status code response
+  responses:
+    200:
+      description: Success 
+      body:
+        application/json:
+          
+          example: !include examples/users.raml
+ #type:
+ #  collection:
+  #   resourcePath: mylib.users
+
+ is: 
+ - mylib.respoMessage:
+       
+/{userId}:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/userId.raml
+  post:
+    responses:
+      201:
+        body:
+          application/json:
+            example: !include examples/userId.raml
+  #type:
+   #collection:
+    # resourcePath: mylib.userId
+  
+  is:
+  - mylib.respoMessage:
+    
+/product:
+  get:
+    responses:
+      200:
+          body:
+            application/json:
+              example: !include examples/product.raml             
+  #type:
+   #collection:
+    # resourcePath: product
+  is: 
+  - mylib.respoMessage
+/{productid}:
+  get:
+     responses:
+        200:
+          body:
+            application/json:
+              example: !include examples/productid.raml
+  #type:
+   #collection:
+    # resourcePath: productid          
+  is:
+  - mylib.respoMessage
+
+/categories:
+  get:
+    responses:
+     200:
+        body:
+          application/json:
+            example: !include examples/categories.raml              
+  #type:
+   #collection:
+    # resourcePath: categories
+  
+  is: 
+  - mylib.respoMessage     
+/{categoryid}:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/categoryid.raml 
+  #type:
+   #collection:
+    # resourcePath: categoryid
+  is: 
+  - mylib.respoMessage
+/order:
+  get:
+    responses:
+     200:
+       body:
+        application/json:
+          example: !include examples/order.raml      
+  is: 
+  - mylib.respoMessage
+  post:  
+   responses:
+     "201":
+       body:
+          application/json:
+             example: !include examples/order.raml
+  #type:
+   #collection:
+    # resourcePath: order
+   is: 
+   - mylib.respoMessage           
+         
